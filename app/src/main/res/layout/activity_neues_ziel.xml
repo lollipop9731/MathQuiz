@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_neues_ziel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.l.mathquiz.NeuesZiel">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:hint="Punkte zum Erreichen"
+        android:layout_below="@+id/name_neuesziel"
+        android:layout_alignLeft="@+id/name_neuesziel"
+        android:layout_alignStart="@+id/name_neuesziel"
+        android:layout_marginTop="31dp"
+        android:id="@+id/punkte_neuesziel" />
+
+    <Button
+        android:text="Hinzufügen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/punkte_neuesziel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:id="@+id/add_neuesziel" />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_neuesziel"
+        android:layout_alignRight="@+id/add_neuesziel"
+        android:layout_alignEnd="@+id/add_neuesziel"
+        android:layout_marginRight="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="142dp"
+        android:id="@+id/testtv1" />
+
+    <Button
+        android:text="ALle Ziele"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/add_neuesziel"
+        android:layout_toStartOf="@+id/add_neuesziel"
+        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:id="@+id/button1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Name des Ziels"
+        android:ems="10"
+        android:layout_marginTop="27dp"
+        android:id="@+id/name_neuesziel"
+        android:inputType="textCapWords"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

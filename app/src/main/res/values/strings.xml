@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Nikolai`s Mathequiz</string>
+    <string name="nameplayer">Nikolai</string>
+    <string name="welcome">Willkommen zu deinem eigenen Mathequiz Nikolai!</string>
+    <string name="categories">Kategorien</string>
+    <string name="difficulty">Schwierigkeitsgrad</string>
+    <string name="difficultiesdescription">Wenn du die Aufgabe beim ersten Versuch richtig
+        beantwortest, gibt es +2 (leicht) +4 (mittel) oder +6 (schwer) Punkte. Pro falschen Versuch gibt
+        es -1 (leicht) -2 (mittel) oder -3 (schwer) Punkte. Für jede Aufgabe hast du maximal 2
+        Versuche. Wenn du sie beim zweiten Versuch richtig beantwortest kriegst du noch +1 (leicht) +2 (mittel)
+        oder +3 (schwer) Punkte. Wenn du sie allerdings wieder falsch beantwortest, kriegst du nochmal -1 (leicht)
+        -2 (mittel) oder -3 (schwer) Punkte! Also streng dich an Nikolai!</string>
+    <string-array name="richtigesergebnis">
+        <item>Sehr gut Nikolai!</item>
+        <item>Richtig, weiter so!</item>
+        <item>Klasse!</item>
+        <item>Du bist ja ein richtiger Profi!</item>
+        <item>Einfach super Nikolai!</item>
+        <item>Zwei Punkte für den Meister!</item>
+        <item>Locker flockig beim ersten Versuch!</item>
+        <item>Niemand kann es mit dir aufnehmen!</item>
+    </string-array>
+    <string name="points">Punktestand:</string>
+    <string-array name="richtigesergebniszweiterversuch">
+        <item>Siehst du geht doch!</item>
+        <item>Immerhin beim zweiten Versuch!</item>
+        <item>Zweimal ist einmal!</item>
+        <item>Den Punkt hast du dir verdient!</item>
+        <item>Geht doch!</item>
+        <item>Jeder hat eine zweite Chance verdient!</item>
+        <item>Zweite Chance genutzt!</item>
+    </string-array>
+    <string-array name="falschesergbnisfirst">
+        <item>Noch ein Versuch!</item>
+        <item>Leider falsch probier es nochmal!</item>
+        <item>Komm schon, diesmal schaffst du es!</item>
+        <item>Nur ein Punkt weniger, einen Versuch hast du noch!</item>
+        <item>Schade, probiers nochmal</item>
+        <item>Rechne nochmal nach!</item>
+    </string-array>
+    <string-array name="falschesergbnissecond">
+        <item>Leider wieder falsch :(</item>
+        <item>Das war nichts.</item>
+        <item>Mach dir nichts draus, neue Aufgabe!</item>
+        <item>Mistekiste, wieder falsch.</item>
+        <item>Neue Aufgabe, leider falsch!</item>
+    </string-array>
+    <string name="panini">Ein Panini Pack</string>
+    <string name="naschi">Ein Naschi deiner Wahl</string>
+    <string name="pumuckl">Eine Folge Pumuckl</string>
+    <string name="fussball">Ein spätes Fussballspiel gucken</string>
+    <string name="kleinesAuto">kleines Spielzeugauto</string>
+    <string name="großesAuto">großes Spielzeugauto</string>
+    <string name="Musik">Ein Musikalbum deiner Wahl</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+</resources>
