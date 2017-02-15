@@ -611,35 +611,25 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                     // random number between 2-10
                     operand1 = newRandom.nextInt(9) + 2;
 
-                    // as long as the result is higher than 50, continue generating random numbers
-                    while (true) {
-                        operand2 = newRandom.nextInt(9) + 2;
-                        if (operand1 * operand2 <= 50) {
-                            break;
-                        }
-                    }
+                    // generate number, so the result is below 50
+                    operand2 = newRandom.nextInt(50 / operand1) + 1;
                     break;
 
                 case 2:
                     // random numbers between 5-15
                     operand1 = newRandom.nextInt(10) + 5;
-                    operand2 = newRandom.nextInt(10) + 5;
 
-                    // result must be between 51 and 100
-//                    while (operand1 * operand2 < 50 && operand1 * operand2 <= 100) {
-//                        operand2 = newRandom.nextInt(15) + 1;
-//                    }
+                    // generate number, so the result is between 50-100
+                    operand2 = newRandom.nextInt(50 / operand1) + 50 / operand1;
+
                     break;
 
                 case 3:
                     // random numbers between 10-20
                     operand1 = newRandom.nextInt(20) + 10;
-                    operand2 = newRandom.nextInt(20) + 10;
 
-                    // result must be between 101 and 150
-//                    while (operand1 * operand2 < 100 && operand1 * operand2 <= 150) {
-//                        operand2 = newRandom.nextInt(20) + 1;
-//                    }
+                    // generate number, so the result is between 100-150
+                    operand2 = newRandom.nextInt(100 / operand1) + 100 / operand1;
                     break;
 
             }
@@ -647,72 +637,110 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
         // bei geteilt
         if (this.operatorboolean == 1) {
-
+            // Alle Teiler
             ArrayList<Integer> teiler = new ArrayList<Integer>();
+
+            // ArrayList mit ausgewählten Teiler, mit Ergebnis unter X
+            ArrayList<Integer> finalteiler = new ArrayList<>();
 
             switch (getDifficulty()) {
                 case 1:
 
-                    // erste Zahl zwischen 2-50
-                    operand1 = newRandom.nextInt(49) + 2;
-
-                    // Alle Teiler der zufälligen Zahl zu Array hinzufügen.
-                    for (int i = 1; i <= operand1; i++) {
-                        if (operand1 % i == 0 && i!=operand1) {
-                            teiler.add(i);
+                    // Erste Schleife, sucht alle Teiler, außer 1 und die Zahl selbst
+                    while (true) {
+                        operand1 = newRandom.nextInt(49) + 2;
+                        for (int i = 1; i <= operand1; i++) {
+                            if (operand1 % i == 0 && i != operand1 && i != 1) {
+                                teiler.add(i);
+                            }
                         }
+                        // Break, wenn Zahl mindestens einen Teiler hat
+                        if (teiler.size() > 0)
+                            break;
                     }
 
+                    //Checked nach Teiler, dass das Ergebnis unter 10 ist.
+                    for (int k = 0; k < teiler.size(); k++) {
+                        int l = teiler.get(k);
+                        if (operand1 / l < 10) {
 
-                    // Solange neue Zahlen suchen, bis das Ergebnis zwischen 1-10 ist.
-//                    while (true) {
-//                        operand2 = teiler.get(newRandom.nextInt(teiler.size()));
-//                        if (operand1 / operand2 <= 10)
-//                            break;
-//                    }
-//                    break;
+                            finalteiler.add(l);
+                        }
+
+                    }
+
+                    operand2 = finalteiler.get(newRandom.nextInt(finalteiler.size()));
+
+                    break;
 
                 case 2:
 
                     // erste Zahl zwischen 50-150
-                    operand1 = newRandom.nextInt(150) + 50;
+
 
                     // Alle Teiler der zufälligen Zahl zu Array hinzufügen.
-                    for (int i = 2; i <= operand1; i++) {
-                        if (this.operand1 % i == 0) {
-                            teiler.add(i);
+                    while (true) {
+                        operand1 = newRandom.nextInt(150) + 20;
+                        for (int i = 1; i <= operand1; i++) {
+                            if (operand1 % i == 0 && i != operand1 && i != 1) {
+                                teiler.add(i);
+                            }
+                        }
+                        if (teiler.size() > 0)
+                            break;
+                    }
+
+                    while (true) {
+                        for (int k = 0; k < teiler.size(); k++) {
+                            int l = teiler.get(k);
+                            if (operand1 / l > 5 && operand1 / l < 20) {
+
+                                finalteiler.add(l);
+                            }
+
+                        }
+                        if (finalteiler.size() > 0) {
+                            operand2 = finalteiler.get(newRandom.nextInt(finalteiler.size()));
+                            break;
+                        } else {
+                            operand1 = newRandom.nextInt(150) + 20;
                         }
                     }
 
 
-
-                    // Solange neue Zahlen suchen, bis das Ergebnis zwischen 5-20 liegt.
-                    while (true) {
-                    operand2 = teiler.get(newRandom.nextInt(teiler.size()));
-                    if (operand1 / operand2 <= 15 && operand1 / operand2 >= 5)
-                        break;
-                }
                     break;
 
                 case 3:
 
                     // erste Zahl zwischen 100-200
-                    operand1 = newRandom.nextInt(150) + 100;
+                    while (true) {
+                        operand1 = newRandom.nextInt(250) + 50;
+                        for (int i = 1; i <= operand1; i++) {
+                            if (operand1 % i == 0 && i != operand1 && i != 1) {
+                                teiler.add(i);
+                            }
+                        }
+                        if (teiler.size() > 0)
+                            break;
+                    }
+                    while (true) {
+                        for (int k = 0; k < teiler.size(); k++) {
+                            int l = teiler.get(k);
+                            if (operand1 / l > 15 && operand1 / l < 30) {
 
-                    // Alle Teiler der zufälligen Zahl zu Array hinzufügen.
-                    for (int i = 2; i <= operand1; i++) {
-                        if (this.operand1 % i == 0) {
-                            teiler.add(i);
+                                finalteiler.add(l);
+                            }
+
+                        }
+                        if (finalteiler.size() > 0) {
+                            operand2 = finalteiler.get(newRandom.nextInt(finalteiler.size()));
+                            break;
+                        } else {
+                            operand1 = newRandom.nextInt(250) + 50;
                         }
                     }
 
 
-                    // Solange neue Zahlen suchen, bis das Ergebnis zwischen 10-25 liegt.
-                    while (true) {
-                        operand2 = teiler.get(newRandom.nextInt(teiler.size()));
-                        if(operand1 / operand2 <= 25 && operand1 / operand2 >= 10)
-                            break;
-                    }
                     break;
 
 
