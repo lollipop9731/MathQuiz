@@ -36,8 +36,13 @@ public class PlusUndMinusActivity extends AppCompatActivity {
     int operand1;
     int operand2;
     int operatorboolean;
+
+    // entered result by user
     int resultint;
+
+    // right result of the term
     int correctresult;
+
     String[] operators;
     String[] correctresulttext;
     String[] correctresulttextsecond;
@@ -46,25 +51,10 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     int points = 0;
 
-    int alle = 0;
-
-
     // other stuff
     Random rgen = new Random();
     int counter = 0;
-    Boolean p; // für allevier
-    String catstr;
-    String cat1str;
-    String cat2str;
-    String diffstr1;
-    String diffstr2;
-    String diffstr3;
-    String diffmalstr1;
-    String diffmalstr2;
-    String diffmalstr3;
-    String diffallestr1;
-    String diffallestr2;
-    String diffallestr3;
+
 
     // set font
     protected void attachBaseContext(Context newBase) {
@@ -109,18 +99,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         pointsanimatetv = (TextView) findViewById(R.id.pointsanimate);
 
         // Erste Aufgabe
-        switch (getCategory()) {
-            case 1:
-                mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                break;
-            case 2:
-                mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                break;
-            case 3:
-                mathquestion.setText("Kategorie 3");
-                break;
-        }
-
+       NewTerm(getCategory());
 
         punktestand.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
 
@@ -133,401 +112,86 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                     // der Button zum Eingeben des Ergebnisses
                     case R.id.confirmnumber:
 
-
+                        // aktuellen Punktestand
                         points = getPoints();
+
                         //  result must be not empty
                         if (result.getText().length() > 0) {
-
 
                             // result, entered by user
                             resultint = Integer.parseInt(result.getText().toString());
 
+                            // Animation des Antworttextes
                             Animation fadeinandout = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein_out);
                             answer.startAnimation(fadeinandout);
 
 
-                            if (catstr != null) {
-                                if (getCorrectresultplusminus() == resultint) {
+                                    // Wenn das Ergebnis korrekt ist.
+                            if(correctresult == resultint){
 
+                                switch (getDifficulty()){
 
-                                    if (counter == 0) {
-                                        // FIRST TRY PLUS MINUS
+                                            // Leichte Schwierigkeitsstufe
+                                            case 1:
+                                                // points + 2 und passende Animation beim ersten Versuch
+                                                if(counter==0) {
+                                                    PointsAllocation(2);
 
-                                        //leicht poitns
-                                        if (diffstr1 != null) {
+                                                }
+                                                // Beim zweiten Versuch
+                                                if(counter==1){
+                                                    PointsAllocation(1);
+                                                }
+                                                break;
 
-                                            // points + 2 animate
-                                            animatePoints(pointsanimatetv, 2, getResources().getColor(R.color.green));
-                                            setPoints(getPoints() + 2);
+                                            // Mittlere Schwierigkeitsstufe
+                                            case 2:
+
+                                                if(counter==0) {
+                                                    PointsAllocation(4);
+                                                }
+                                                // Beim zweiten Versuch
+                                                if(counter==1){
+                                                    PointsAllocation(2);
+                                                }
+
+                                                break;
+                                            // Schwerste Schwierigkeitsstufe
+                                            case 3:
+                                                // points + 6 und passende Animation
+                                                if(counter==0) {
+                                                    PointsAllocation(6);
+                                                }
+                                                // Beim zweiten Versuch, Counter auf 1
+                                                if(counter==1){
+                                                    PointsAllocation(3);
+                                                }
+                                                break;
 
                                         }
+                                    // if user input is NOT correct
+                                    }else{
 
-                                        //mittel points
-                                        if (diffstr2 != null) {
-                                            setPoints(getPoints() + 4);
+                                switch (getDifficulty()){
+                                    // Leicht
+                                    case 1:
+                                        PointsAllocation(-1);
+                                        counter=1;
+                                        break;
 
-                                            // points + 4 animate
-                                            animatePoints(pointsanimatetv, 4, getResources().getColor(R.color.green));
-                                        }
-                                        // schwer points
-                                        if (diffstr3 != null) {
-                                            setPoints(getPoints() + 6);
+                                    // Mittel
+                                    case 2:
+                                        PointsAllocation(-2);
+                                        counter=1;
+                                        break;
 
-                                            // points + 6 animate
-                                            animatePoints(pointsanimatetv, 6, getResources().getColor(R.color.green));
-                                        }
-
-
-                                        // random answertext
-                                        answer.setText(correctresulttext[rgen.nextInt(correctresulttext.length)]);
-                                        result.setText("");
-
-
-                                    }
-                                    // SECOND TRY PLUS MINUS
-                                    if (counter == 1) {
-                                        //leicht poitns
-                                        if (diffstr1 != null) {
-                                            setPoints(getPoints() + 1);
-                                            // points + 2 animate
-                                            animatePoints(pointsanimatetv, 1, getResources().getColor(R.color.green));
-                                        }
-
-                                        //mittel points
-                                        if (diffstr2 != null) {
-                                            setPoints(getPoints() + 2);
-                                            // points + 4 animate
-                                            animatePoints(pointsanimatetv, 2, getResources().getColor(R.color.green));
-                                        }
-                                        // schwer points
-                                        if (diffstr3 != null) {
-                                            setPoints(getPoints() + 3);
-
-                                            // points + 6 animate
-                                            animatePoints(pointsanimatetv, 3, getResources().getColor(R.color.green));
-                                        }
-
-                                        answer.setText(correctresulttextsecond[rgen.nextInt(correctresulttextsecond.length)]);
-                                    }
-
-                                    counter = 0;
-                                    //leicht
-                                    if (diffstr1 != null) {
-                                        mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                                    }
-                                    //mittel
-                                    if (diffstr2 != null) {
-                                        mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                                    }
-                                    // schwer
-                                    if (diffstr3 != null) {
-                                        mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                                    }
-
-
-                                    // reset input
-                                    result.setText("");
-
-
-                                    // WRONG PLUS MINUS
-                                } else {
-
-
-                                    counter++;
-
-                                    if (diffstr1 != null) {
-                                        setPoints(getPoints() - 1);
-                                        animatePoints(pointsanimatetv, -1, getResources().getColor(R.color.red));
-                                        answer.setText(wrongresultfirst[rgen.nextInt(wrongresultfirst.length)]);
-                                    }
-                                    //mittel
-                                    if (diffstr2 != null) {
-                                        setPoints(getPoints() - 2);
-                                        animatePoints(pointsanimatetv, -2, getResources().getColor(R.color.red));
-                                        answer.setText(wrongresultfirst[rgen.nextInt(wrongresultfirst.length)]);
-                                    }
-                                    // schwer
-                                    if (diffstr3 != null) {
-                                        setPoints(getPoints() - 3);
-                                        animatePoints(pointsanimatetv, -3, getResources().getColor(R.color.red));
-                                        answer.setText(wrongresultfirst[rgen.nextInt(wrongresultfirst.length)]);
-                                    }
-
-
-                                    if (counter % 2 == 0) {
-
-                                        if (diffstr1 != null) {
-                                            mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                                            setPoints(getPoints() - 1);
-                                            animatePoints(pointsanimatetv, -1, getResources().getColor(R.color.red));
-                                            answer.setText(wrongresultsecond[rgen.nextInt(wrongresultsecond.length)]);
-                                        }
-                                        //mittel
-                                        if (diffstr2 != null) {
-                                            mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                                            setPoints(getPoints() - 2);
-                                            animatePoints(pointsanimatetv, -2, getResources().getColor(R.color.red));
-                                            answer.setText(wrongresultsecond[rgen.nextInt(wrongresultsecond.length)]);
-                                        }
-                                        // schwer
-                                        if (diffstr3 != null) {
-                                            mathquestion.setText(newRandomtermPlusMinusNEU(getDifficulty()));
-                                            setPoints(getPoints() - 3);
-                                            animatePoints(pointsanimatetv, -3, getResources().getColor(R.color.red));
-                                            answer.setText(wrongresultsecond[rgen.nextInt(wrongresultsecond.length)]);
-                                        }
-                                        counter = 0;
-                                    }
+                                    // Schwer
+                                    case 3:
+                                        PointsAllocation(-3);
+                                        counter=1;
+                                        break;
                                 }
                             }
-
-                            // MAL UND GETEILT
-                            if (cat1str != null) {
-
-                                if (getCorrectresultmalgeteilt() == resultint) {
-
-                                    // FIRST TRY MAL GETEILT
-                                    if (counter == 0) {
-
-                                        if (diffmalstr1 != null) {
-                                            setPoints(getPoints() + 2);
-                                            // points + 2 animate
-                                            animatePoints(pointsanimatetv, 2, getResources().getColor(R.color.green));
-                                        }
-
-                                        //mittel points
-                                        if (diffmalstr2 != null) {
-                                            setPoints(getPoints() + 4);
-                                            // points + 4 animate
-                                            animatePoints(pointsanimatetv, 4, getResources().getColor(R.color.green));
-                                        }
-                                        // schwer points
-                                        if (diffmalstr3 != null) {
-                                            setPoints(getPoints() + 6);
-                                            // points + 6 animate
-                                            animatePoints(pointsanimatetv, 6, getResources().getColor(R.color.green));
-                                        }
-
-                                        // random answertext
-                                        answer.setText(correctresulttext[rgen.nextInt(correctresulttext.length)]);
-                                        result.setText("");
-                                    }
-
-                                    // SECOND TRY MAL GETEILT
-                                    if (counter == 1) {
-
-                                        if (diffmalstr1 != null) {
-                                            setPoints(getPoints() + 1);
-                                            // points + 2 animate
-                                            animatePoints(pointsanimatetv, 1, getResources().getColor(R.color.green));
-                                        }
-
-                                        //mittel points
-                                        if (diffmalstr2 != null) {
-                                            setPoints(getPoints() + 2);
-                                            // points + 4 animate
-                                            animatePoints(pointsanimatetv, 2, getResources().getColor(R.color.green));
-                                        }
-                                        // schwer points
-                                        if (diffmalstr3 != null) {
-                                            setPoints(getPoints() + 3);
-                                            // points + 6 animate
-                                            animatePoints(pointsanimatetv, 3, getResources().getColor(R.color.green));
-                                        }
-
-                                        answer.setText(correctresulttextsecond[rgen.nextInt(correctresulttextsecond.length)]);
-                                    }
-
-                                    counter = 0;
-
-                                    // LEICHT
-                                    if (diffmalstr1 != null) {
-                                        mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                                    }
-
-                                    //MITTEL
-                                    if (diffmalstr2 != null) {
-                                        mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                                    }
-                                    //MITTEL
-                                    if (diffmalstr3 != null) {
-                                        mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                                    }
-
-                                    // reset input
-                                    result.setText("");
-
-                                    // if the userresult is wrong
-
-                                } else {
-
-                                    answer.setText(wrongresultfirst[rgen.nextInt(wrongresultfirst.length)]);
-
-                                    counter++;
-                                    if (diffmalstr1 != null) {
-                                        animatePoints(pointsanimatetv, -1, getResources().getColor(R.color.red));
-                                        setPoints(getPoints() - 1);
-                                    }
-
-                                    //MITTEL
-                                    if (diffmalstr2 != null) {
-                                        animatePoints(pointsanimatetv, -2, getResources().getColor(R.color.red));
-                                        setPoints(getPoints() - 2);
-                                    }
-                                    //MITTEL
-                                    if (diffmalstr3 != null) {
-                                        animatePoints(pointsanimatetv, -3, getResources().getColor(R.color.red));
-                                        setPoints(getPoints() - 3);
-                                    }
-
-
-                                    if (counter % 2 == 0) {
-
-                                        // LEICHT
-                                        if (diffmalstr1 != null) {
-                                            mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                                        }
-
-                                        //MITTEL
-                                        if (diffmalstr2 != null) {
-                                            mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                                        }
-                                        //MITTEL
-                                        if (diffmalstr3 != null) {
-                                            mathquestion.setText(newRandomtermMalGeteilt(getDifficulty()));
-                                        }
-
-
-                                        answer.setText(wrongresultsecond[rgen.nextInt(wrongresultsecond.length)]);
-
-                                        counter = 0;
-                                    }
-                                }
-                            }
-
-                            // ALLE VIER
-                            if (cat2str != null) {
-
-                                // wenn malgeteilt
-
-                                if (getCorrectresultalle() == resultint) {
-                                    // FIRST TRY
-                                    if (counter == 0) {
-                                        if (diffallestr1 != null) {
-                                            setPoints(getPoints() + 2);
-                                            // points + 2 animate
-                                            animatePoints(pointsanimatetv, 2, getResources().getColor(R.color.green));
-                                        }
-
-                                        //mittel points
-                                        if (diffallestr2 != null) {
-                                            setPoints(getPoints() + 4);
-                                            // points + 4 animate
-                                            animatePoints(pointsanimatetv, 4, getResources().getColor(R.color.green));
-                                        }
-                                        // schwer points
-                                        if (diffallestr3 != null) {
-                                            setPoints(getPoints() + 6);
-                                            // points + 6 animate
-                                            animatePoints(pointsanimatetv, 6, getResources().getColor(R.color.green));
-                                        }
-
-                                        // random answertext
-                                        answer.setText(correctresulttext[rgen.nextInt(correctresulttext.length)]);
-                                        result.setText("");
-                                    }
-                                    if (counter == 1) {
-
-                                        if (diffallestr1 != null) {
-                                            setPoints(getPoints() + 1);
-                                            // points + 2 animate
-                                            animatePoints(pointsanimatetv, 1, getResources().getColor(R.color.green));
-                                        }
-
-                                        //mittel points
-                                        if (diffallestr2 != null) {
-                                            setPoints(getPoints() + 2);
-                                            // points + 4 animate
-                                            animatePoints(pointsanimatetv, 2, getResources().getColor(R.color.green));
-                                        }
-                                        // schwer points
-                                        if (diffallestr3 != null) {
-                                            points = points + 3;
-                                            // points + 6 animate
-                                            animatePoints(pointsanimatetv, 3, getResources().getColor(R.color.green));
-                                        }
-
-                                        answer.setText(correctresulttextsecond[rgen.nextInt(correctresulttextsecond.length)]);
-                                    }
-
-
-                                    counter = 0;
-
-
-                                    if (diffallestr1 != null) {
-                                        mathquestion.setText(newRandomtermAlleVier(1));
-                                    }
-                                    // mittel
-                                    if (diffallestr2 != null) {
-                                        mathquestion.setText(newRandomtermAlleVier(2));
-                                    }
-                                    // schwer
-                                    if (diffallestr3 != null) {
-                                        mathquestion.setText(newRandomtermAlleVier(2));
-                                    }
-
-                                    // reset input
-                                    result.setText("");
-                                } else {
-
-                                    answer.setText(wrongresultfirst[rgen.nextInt(wrongresultfirst.length)]);
-
-                                    counter++;
-                                    // LEICHT
-                                    if (diffallestr1 != null) {
-                                        animatePoints(pointsanimatetv, -1, getResources().getColor(R.color.red));
-                                        setPoints(getPoints() - 1);
-                                    }
-
-                                    //MITTEL
-                                    if (diffallestr2 != null) {
-                                        animatePoints(pointsanimatetv, -2, getResources().getColor(R.color.red));
-                                        setPoints(getPoints() - 2);
-                                    }
-                                    //MITTEL
-                                    if (diffallestr3 != null) {
-                                        animatePoints(pointsanimatetv, -3, getResources().getColor(R.color.red));
-                                        setPoints(getPoints() - 3);
-                                    }
-
-
-                                    if (counter % 2 == 0) {
-
-                                        // LEICHT
-                                        if (diffallestr1 != null) {
-                                            mathquestion.setText(newRandomtermAlleVier(1));
-                                        }
-
-                                        //MITTEL
-                                        if (diffallestr2 != null) {
-                                            mathquestion.setText(newRandomtermAlleVier(2));
-                                        }
-                                        //MITTEL
-                                        if (diffallestr3 != null) {
-                                            mathquestion.setText(newRandomtermAlleVier(3));
-                                        }
-
-
-                                        answer.setText(wrongresultsecond[rgen.nextInt(wrongresultsecond.length)]);
-
-                                        counter = 0;
-                                    }
-                                }
-
-
-                            }
-
-
                             // if result is empty, show toast
                         } else {
 
@@ -560,43 +224,11 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     }
 
-    public int getCorrectresultplusminus() {
-        if (this.operatorboolean == 0) {
-            correctresult = this.operand1 + this.operand2;
-            return correctresult;
-        }
-        if (this.operatorboolean == 1) {
-            correctresult = this.operand1 - this.operand2;
-            return correctresult;
-        }
-
-        return 0;
-    }
-
-    public int getCorrectresultmalgeteilt() {
-        if (this.operatorboolean == 0) {
-            correctresult = this.operand1 * this.operand2;
-            return correctresult;
-        }
-        if (this.operatorboolean == 1) {
-            correctresult = this.operand1 / this.operand2;
-            return correctresult;
-        }
-
-        return 0;
-    }
-
-    public int getCorrectresultalle() {
-        if (this.alle == 0) {
-            return getCorrectresultmalgeteilt();
-        }
-        if (this.alle == 1) {
-            return getCorrectresultplusminus();
-        }
-        return 0;
-    }
-
-
+    /**
+     * Erstellte eine neue zufällige Mal und Geteilt Aufgabe.
+     * @param difficulty Kann 1-3 sein. 1 für leicht, 3 für schwer.
+     * @return String mit dem neuen kompletten Term.
+     */
     public String newRandomtermMalGeteilt(int difficulty) {
         Random newRandom = new Random();
         operators = new String[]{"*", "÷"};
@@ -633,6 +265,8 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                     break;
 
             }
+
+            this.correctresult = operand1 * operand2;
         }
 
         // bei geteilt
@@ -746,6 +380,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
             }
 
+            this.correctresult = operand1/operand2;
         }
 
 
@@ -757,37 +392,20 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     }
 
-    public String newRandomtermAlleVier(int difficult) {
+    /**
+     * Zufällige Auswahl von allen vier Rechenarten.
+     *
+     * @return
+     */
+    public String newRandomtermAlleVier() {
         String term = "";
-        this.alle = rgen.nextInt(2);
-        if (this.alle == 0) {
-            switch (difficult) {
-                case 1:
-                    term = newRandomtermMalGeteilt(getDifficulty());
-                    break;
-                case 2:
-                    term = newRandomtermMalGeteilt(getDifficulty());
-                    break;
-                case 3:
-                    term = newRandomtermMalGeteilt(getDifficulty());
-
-            }
-            return term;
-
+        int alle = rgen.nextInt(2);
+        if (alle == 0) {
+            return newRandomtermMalGeteilt(getDifficulty());
+        }else{
+            return newRandomtermPlusMinusNEU(getDifficulty());
         }
-        if (this.alle == 1) {
-            switch (difficult) {
-                case 1:
-                    term = newRandomtermPlusMinusNEU(getDifficulty());
-                    break;
-                case 2:
-                    term = newRandomtermPlusMinusNEU(getDifficulty());
-                    break;
-                case 3:
-                    term = newRandomtermPlusMinusNEU(getDifficulty());
-            }
-        }
-        return term;
+
     }
 
 
@@ -815,6 +433,10 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Aktuelle Anzahl an Punkten.
+     * @return Int Punktzahl
+     */
     public int getPoints() {
 
         SharedPreferences pointsshared = getSharedPreferences("Points", 0);
@@ -900,6 +522,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         if (operatorboolean == 1) {
             operand2 = newRandom.nextInt(this.operand1 + 1);
         }
+        this.correctresult = operand1 + operand2;
 
 
         // return string
@@ -911,7 +534,33 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     }
 
+    public void PointsAllocation(int points){
+        if(points>0) {
+            animatePoints(pointsanimatetv, points, getResources().getColor(R.color.green));
+            setPoints(getPoints() + points);
+        }else{
+            animatePoints(pointsanimatetv, points, getResources().getColor(R.color.red));
+            setPoints(getPoints() + points);
+        }
+    }
 
+    /**
+     * Creates new term, depending on category.
+     * @param category
+     */
+    public void NewTerm(int category){
+        switch (category){
+            case 1:
+                newRandomtermPlusMinusNEU(getDifficulty());
+                break;
+            case 2:
+                newRandomtermMalGeteilt(getDifficulty());
+                break;
+            case 3:
+                newRandomtermAlleVier();
+                break;
+        }
+    }
 }
 
 
