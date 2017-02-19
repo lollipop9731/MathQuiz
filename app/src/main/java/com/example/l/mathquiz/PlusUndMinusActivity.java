@@ -23,7 +23,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
  */
 public class PlusUndMinusActivity extends AppCompatActivity {
 
-    static Boolean w;
+
     // Elements variables
     TextView mathquestion;
     TextView mathquiz;
@@ -99,7 +99,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         pointsanimatetv = (TextView) findViewById(R.id.pointsanimate);
 
         // Erste Aufgabe
-       NewTerm(getCategory());
+        mathquestion.setText(NewTerm(getCategory()));
 
         punktestand.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
 
@@ -111,6 +111,9 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
                     // der Button zum Eingeben des Ergebnisses
                     case R.id.confirmnumber:
+
+
+                        punktestand.setText(Integer.toString(correctresult));
 
                         // aktuellen Punktestand
                         points = getPoints();
@@ -126,96 +129,89 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                             answer.startAnimation(fadeinandout);
 
 
-                                    // Wenn das Ergebnis korrekt ist.
-                            if(correctresult == resultint){
+                            // Wenn das Ergebnis korrekt ist.
+                            if (correctresult == resultint) {
 
-                                switch (getDifficulty()){
+                                switch (getDifficulty()) {
 
-                                            // Leichte Schwierigkeitsstufe
-                                            case 1:
-                                                // points + 2 und passende Animation beim ersten Versuch
-                                                if(counter==0) {
-                                                    PointsAllocation(2);
-
-                                                }
-                                                // Beim zweiten Versuch
-                                                if(counter==1){
-                                                    PointsAllocation(1);
-                                                }
-                                                break;
-
-                                            // Mittlere Schwierigkeitsstufe
-                                            case 2:
-
-                                                if(counter==0) {
-                                                    PointsAllocation(4);
-                                                }
-                                                // Beim zweiten Versuch
-                                                if(counter==1){
-                                                    PointsAllocation(2);
-                                                }
-
-                                                break;
-                                            // Schwerste Schwierigkeitsstufe
-                                            case 3:
-                                                // points + 6 und passende Animation
-                                                if(counter==0) {
-                                                    PointsAllocation(6);
-                                                }
-                                                // Beim zweiten Versuch, Counter auf 1
-                                                if(counter==1){
-                                                    PointsAllocation(3);
-                                                }
-                                                break;
+                                    // Leichte Schwierigkeitsstufe
+                                    case 1:
+                                        // points + 2 und passende Animation beim ersten Versuch
+                                        if (counter == 0) {
+                                            PointsAllocation(2);
 
                                         }
-                                    // if user input is NOT correct
-                                    }else{
+                                        // Beim zweiten Versuch
+                                        if (counter == 1) {
+                                            PointsAllocation(1);
+                                        }
 
-                                switch (getDifficulty()){
+                                        break;
+
+                                    // Mittlere Schwierigkeitsstufe
+                                    case 2:
+
+                                        if (counter == 0) {
+                                            PointsAllocation(4);
+                                        }
+                                        // Beim zweiten Versuch
+                                        if (counter == 1) {
+                                            PointsAllocation(2);
+                                        }
+
+                                        break;
+                                    // Schwerste Schwierigkeitsstufe
+                                    case 3:
+                                        // points + 6 und passende Animation
+                                        if (counter == 0) {
+                                            PointsAllocation(6);
+                                        }
+                                        // Beim zweiten Versuch, Counter auf 1
+                                        if (counter == 1) {
+                                            PointsAllocation(3);
+                                        }
+                                        break;
+                                }
+                                // Counter resetten
+                                counter = 0;
+
+                                // Neue Aufgabe
+                                mathquestion.setText(NewTerm(getCategory()));
+
+                                // if user input is NOT correct
+                            } else {
+
+                                switch (getDifficulty()) {
                                     // Leicht
                                     case 1:
                                         PointsAllocation(-1);
-                                        counter=1;
                                         break;
 
                                     // Mittel
                                     case 2:
                                         PointsAllocation(-2);
-                                        counter=1;
                                         break;
 
                                     // Schwer
                                     case 3:
                                         PointsAllocation(-3);
-                                        counter=1;
                                         break;
                                 }
+                                counter++;
+
+                                // New Term at every second try.
+                                if (counter % 2 == 0)
+                                    mathquestion.setText(NewTerm(getCategory()));
                             }
                             // if result is empty, show toast
                         } else {
-
-                            Context context = getApplicationContext();
-                            CharSequence empty = "Bitte eine Zahl eingeben " + getResources().getString(R.string.nameplayer) + " !";
-                            int duration = Toast.LENGTH_SHORT;
-                            Toast toast = Toast.makeText(context, empty, duration);
-
-                            toast.show();
+                            Toast.makeText(getApplicationContext(),"Bitte eine Zahl eingeben " + R.string.nameplayer,Toast.LENGTH_LONG).show();
                         }
                         // set points
-
-
                         punktestand.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
-
-
                         break;
-
-
                 }
-
-
             }
-
         };
 
         // set on clicklistener
@@ -226,6 +222,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     /**
      * Erstellte eine neue zufällige Mal und Geteilt Aufgabe.
+     *
      * @param difficulty Kann 1-3 sein. 1 für leicht, 3 für schwer.
      * @return String mit dem neuen kompletten Term.
      */
@@ -380,7 +377,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
             }
 
-            this.correctresult = operand1/operand2;
+            this.correctresult = operand1 / operand2;
         }
 
 
@@ -402,7 +399,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         int alle = rgen.nextInt(2);
         if (alle == 0) {
             return newRandomtermMalGeteilt(getDifficulty());
-        }else{
+        } else {
             return newRandomtermPlusMinusNEU(getDifficulty());
         }
 
@@ -435,6 +432,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     /**
      * Aktuelle Anzahl an Punkten.
+     *
      * @return Int Punktzahl
      */
     public int getPoints() {
@@ -521,8 +519,10 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         // no result <0
         if (operatorboolean == 1) {
             operand2 = newRandom.nextInt(this.operand1 + 1);
+            this.correctresult = operand1 - operand2;
+        } else {
+            this.correctresult = operand1 + operand2;
         }
-        this.correctresult = operand1 + operand2;
 
 
         // return string
@@ -534,11 +534,11 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     }
 
-    public void PointsAllocation(int points){
-        if(points>0) {
+    public void PointsAllocation(int points) {
+        if (points > 0) {
             animatePoints(pointsanimatetv, points, getResources().getColor(R.color.green));
             setPoints(getPoints() + points);
-        }else{
+        } else {
             animatePoints(pointsanimatetv, points, getResources().getColor(R.color.red));
             setPoints(getPoints() + points);
         }
@@ -546,20 +546,22 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
     /**
      * Creates new term, depending on category.
+     *
      * @param category
      */
-    public void NewTerm(int category){
-        switch (category){
+    public String NewTerm(int category) {
+        switch (category) {
             case 1:
-                newRandomtermPlusMinusNEU(getDifficulty());
-                break;
+                return newRandomtermPlusMinusNEU(getDifficulty());
+
             case 2:
-                newRandomtermMalGeteilt(getDifficulty());
-                break;
+                return newRandomtermMalGeteilt(getDifficulty());
+
             case 3:
-                newRandomtermAlleVier();
-                break;
+                return newRandomtermAlleVier();
+
         }
+        return "";
     }
 }
 
