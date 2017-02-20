@@ -53,6 +53,7 @@
     <string name="großesAuto">großes Spielzeugauto</string>
     <string name="Musik">Ein Musikalbum deiner Wahl</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="appbeenden">Drücken sie den Zurückbutton erneut um die App zu schließen.</string>
 
 
 </resources>

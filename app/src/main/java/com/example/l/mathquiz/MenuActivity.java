@@ -3,10 +3,10 @@ package com.example.l.mathquiz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity  {
 
@@ -17,6 +17,8 @@ public class MenuActivity extends AppCompatActivity  {
     Button startbutton;
     Button rewardcoinsbutton;
     ImageButton settingsButton;
+    int backButtonCount=0;
+
 
 
 
@@ -26,6 +28,7 @@ public class MenuActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_menu);
 
 
+        backButtonCount=0;
 
         // Layout declarations
 
@@ -73,5 +76,25 @@ public class MenuActivity extends AppCompatActivity  {
 
     }
 
+    /**
+     * Back button listener.
+     * Will close the application if the back button pressed twice.
+     */
+    @Override
+    public void onBackPressed()
+    {
+        if(backButtonCount >= 1)
+        {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(this,R.string.appbeenden, Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.example.l.mathquiz;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,28 +7,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import android.telephony.SmsManager;
 import android.widget.Toast;
-
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -37,7 +25,7 @@ import java.util.GregorianCalendar;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class PunkteActivity extends AppCompatActivity {
+public class  PunkteActivity extends AppCompatActivity {
 
     RelativeLayout ll;
     View.OnClickListener onC;

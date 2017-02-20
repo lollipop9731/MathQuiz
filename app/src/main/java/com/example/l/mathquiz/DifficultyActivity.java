@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -90,7 +89,7 @@ public class DifficultyActivity extends AppCompatActivity {
     /**
      * Setzt die Schwierigkeitsstufe fest.
      *
-     * @param difficultyINT Zahl von 1-3,
+     * @param difficulty Zahl von 1-3,
      *                      1 für leicht, 2 für Mittel, 3 für schwer.
      */
     public void setDifficulty(int difficulty) {

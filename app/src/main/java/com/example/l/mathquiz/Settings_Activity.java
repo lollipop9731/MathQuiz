@@ -3,15 +3,14 @@ package com.example.l.mathquiz;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Settings_Activity extends AppCompatActivity {
@@ -54,22 +53,8 @@ public class Settings_Activity extends AppCompatActivity {
 
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+            dialogCreatePasswort();
 
-                if (isChecked) {
-
-                    pwtypeinTextView.setVisibility(View.VISIBLE);
-                    pwconfirmTextView.setVisibility(View.VISIBLE);
-                    confirmpwButton.setVisibility(View.VISIBLE);
-                    setSwitchStatus(true);
-
-                } else {
-                    dialogPassswortStatus();
-                    pwtypeinTextView.setVisibility(View.INVISIBLE);
-                    pwconfirmTextView.setVisibility(View.INVISIBLE);
-                    confirmpwButton.setVisibility(View.INVISIBLE);
-
-
-                }
             }
         });
 
@@ -224,4 +209,55 @@ public class Settings_Activity extends AppCompatActivity {
         return switchstatus.getBoolean("Switch1",true);
     }
 
+    public void dialogCreatePasswort(){
+
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        View view = (LayoutInflater.from(Settings_Activity.this)).inflate(R.layout.create_password,null);
+
+        alertDialog.setView(view);
+        // Erstellen
+        final EditText pw1 = (EditText)findViewById(R.id.passwordid);
+        // Bestätigen
+        final EditText pw2 = (EditText)findViewById(R.id.passwordid1);
+
+        alertDialog.setMessage("Bitte Passwort erstellen und bestätigen.");
+        alertDialog.setCancelable(true);
+
+        alertDialog.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int id) {
+
+                        String passwort = pw1.getText().toString();
+
+                        String passwortconfirm = pw2.getText().toString();
+
+                        if(passwort.equals(passwortconfirm)){
+
+                            setPassword(passwort);
+                            Toast.makeText(getApplicationContext(),"Passwort erstellt!",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Passwörter stimmen nicht überein!",Toast.LENGTH_LONG).show();
+
+                        }
+
+                        dialogInterface.cancel();
+                    }
+                });
+
+        alertDialog.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                dialogInterface.cancel();
+            }
+        });
+
+        alertDialog.create();
+        alertDialog.show();
+
+
+    }
 }
