@@ -10,55 +10,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.l.mathquiz.Settings_Activity">
 
-    <EditText
-        android:id="@+id/typeinpw"
+    <CheckBox
+        android:text="Passwortschutz                "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/typeinpwconfirm"
-        android:layout_alignRight="@+id/passwordonoff"
-        android:layout_below="@+id/passwordonoff"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="25dp"
-        android:inputType="textPassword"
-        android:hint="Passwort eingeben:" />
-
-    <EditText
-        android:id="@+id/typeinpwconfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/passwordonoff"
-        android:layout_alignRight="@+id/passwordonoff"
-        android:layout_below="@+id/typeinpw"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:inputType="textPassword"
-        android:hint="Passwort bestätigen:" />
-
-    <Switch
-        android:id="@+id/passwordonoff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:text="Passwortschutz aktivieren"
-        android:textColorLink="?attr/colorPrimaryDark"
-        android:textSize="20sp"
-        android:layout_marginLeft="39dp"
-        android:layout_marginStart="39dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:theme="@style/SCBSwitch"
-        />
-
-    <Button
-        android:text="Bestätigen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/typeinpw"
-        android:layout_alignLeft="@+id/typeinpwconfirm"
-        android:layout_alignStart="@+id/typeinpwconfirm"
-        android:layout_marginTop="31dp"
-        style="?android:attr/borderlessButtonStyle"
-        android:id="@+id/confirmpwbtn" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:textSize="20dp"
+        android:id="@+id/pw_checkbox"
+        android:button="@null"
+        android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:onClick="OnCheckboxClicked"/>
 </RelativeLayout>

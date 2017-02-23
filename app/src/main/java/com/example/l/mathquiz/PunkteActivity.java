@@ -82,7 +82,7 @@ public class  PunkteActivity extends AppCompatActivity {
                         break;
 
                     case R.id.newgoal:
-                        if(getSwitchStatus()){
+                        if(getCheckbox()){
                         dialogPassswortZiele();}
                         else {
                             Intent neu1 = new Intent(PunkteActivity.this, NeuesZiel.class);
@@ -182,7 +182,7 @@ public class  PunkteActivity extends AppCompatActivity {
 
 
                 current = (Button) v;
-                if(getSwitchStatus()) {
+                if(getCheckbox()) {
                     dialogPassswort();
                 }else{
                     dialogLöschen();
@@ -427,69 +427,6 @@ public class  PunkteActivity extends AppCompatActivity {
         return button * 400 + 600 ;
     }
 
-
-    public String eingelöstString(Button button) {
-
-        String eingelöst = "";
-        String eingelöstam = " eingelöst am: ";
-        GregorianCalendar heute = new GregorianCalendar();
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-        String datum = df.format(heute.getTime());
-
-        switch (button.getId()) {
-
-            case 10:
-                eingelöst = res.getString(R.string.panini) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum1");
-                break;
-            case 11:
-                eingelöst = res.getString(R.string.pumuckl) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum2");
-                break;
-            case 12:
-                eingelöst = res.getString(R.string.fussball) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum3");
-                break;
-            case 13:
-                eingelöst = res.getString(R.string.kleinesAuto) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum4");
-                break;
-            case 14:
-                eingelöst = res.getString(R.string.großesAuto) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum5");
-                break;
-            case 15:
-                eingelöst = res.getString(R.string.naschi) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum6");
-                break;
-            case 16:
-                eingelöst = res.getString(R.string.Musik) + eingelöstam + datum;
-                seteingelöstString(eingelöst, "Datum7");
-                break;
-
-        }
-        return eingelöst;
-    }
-
-    public void seteingelöstString(String string, String key) {
-        //Shared Preferences
-        SharedPreferences stringsshared = getSharedPreferences("Eingeloest", 0);
-        SharedPreferences.Editor editor = stringsshared.edit();
-        if (string.length() != 0) {
-            editor.putString(key, string);
-            editor.commit();
-        }
-    }
-
-    public String geteingelöstString(String key) {
-        SharedPreferences stringsshared = getSharedPreferences("Eingeloest", 0);
-        if (stringsshared.getString(key, null) != null) {
-            return stringsshared.getString(key, null);
-
-        }
-        return "";
-    }
-
     public void newButtonAfterUserInput() {
 
 
@@ -504,20 +441,6 @@ public class  PunkteActivity extends AppCompatActivity {
 
     }
 
-
-    public void getExtras() {
-        Intent goal = getIntent();
-        int parsedint1 = goal.getIntExtra("goalPoints", 0);
-        String parsedString1 = goal.getStringExtra("goalString");
-
-        if (parsedint1 > 0) {
-            this.parsedint = parsedint1;
-        }
-        if (parsedString1 != null) {
-            this.parsedString = parsedString1;
-        }
-    }
-
     public void onBackPressed() {
         Intent jau = new Intent(PunkteActivity.this, MenuActivity.class);
         startActivity(jau);
@@ -529,9 +452,13 @@ public class  PunkteActivity extends AppCompatActivity {
         return passwordshared.getString("Password1","");
     }
 
-    public Boolean getSwitchStatus(){
-        SharedPreferences switchstatus = getSharedPreferences("Switch",0);
-        return switchstatus.getBoolean("Switch1",true);
+    /**
+     *
+     * @return true if checkbox is checked.
+     */
+    public Boolean getCheckbox(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Checkbox",0);
+        return  sharedPreferences.getBoolean("CheckboxData",false);
     }
 
 
