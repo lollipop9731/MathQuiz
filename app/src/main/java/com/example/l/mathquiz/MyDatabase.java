@@ -90,7 +90,8 @@ public class MyDatabase {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             ArrayList<String> result = new ArrayList<>();
-            Cursor c = db.query(FeedEntry.TABLE_NAME,new String[] { FeedEntry.COLUMN_NAME_GOAL},null,null,null,null,null);
+           // Cursor c = db.query(FeedEntry.TABLE_NAME,new String[] { FeedEntry.COLUMN_NAME_GOAL},null,null,null,null,FeedEntry.COLUMN_NAME_GOAL+" ASC");
+            Cursor c = db.rawQuery("SELECT " + FeedEntry.COLUMN_NAME_GOAL + " FROM " + FeedEntry.TABLE_NAME + " ORDER BY " + FeedEntry.COLUMN_NAME_POINTS + " ASC" , null);
             try {
                 while (c.moveToNext()){
                     result.add(c.getString(0));
@@ -169,7 +170,7 @@ public class MyDatabase {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         try {
             ArrayList<Integer> result = new ArrayList<>();
-            Cursor c = db.query(FeedEntry.TABLE_NAME,new String[] { FeedEntry.COLUMN_NAME_POINTS},null,null,null,null,null);
+            Cursor c = db.query(FeedEntry.TABLE_NAME,new String[] { FeedEntry.COLUMN_NAME_POINTS},null,null,null,null,FeedEntry.COLUMN_NAME_POINTS+" ASC");
             try {
                 while (c.moveToNext()){
                     result.add(c.getInt(0));

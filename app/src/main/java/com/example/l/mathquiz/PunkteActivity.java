@@ -22,6 +22,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -33,11 +34,10 @@ public class  PunkteActivity extends AppCompatActivity {
     PlusUndMinusActivity anim;
     TextView pointsanimtetv;
     int wieivielpoints;
-    Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, eingeloestbtn, btn8, newziel, neu, current;
+    Button  eingeloestbtn, newziel, neu, current;
     ArrayList<Integer> buttonid = new ArrayList<>();
     ArrayList<Integer> pointsarray = new ArrayList<>();
-    int parsedint;
-    String parsedString, name;
+    String name;
     EditText passwortEditText;
 
     Resources res;
@@ -59,7 +59,8 @@ public class  PunkteActivity extends AppCompatActivity {
         eingeloestbtn = (Button) findViewById(R.id.eingeloest);
         newziel = (Button) findViewById(R.id.newgoal);
 
-        //setPoints(2000);
+
+
 
 
         res = getResources();
@@ -76,9 +77,7 @@ public class  PunkteActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.eingeloest:
-                        Intent inte = new Intent(PunkteActivity.this, eingeloestActivity.class);
-                        //startActivity(inte);
-                       // newButtonAfterUserInput();
+
                         break;
 
                     case R.id.newgoal:
@@ -463,6 +462,10 @@ public class  PunkteActivity extends AppCompatActivity {
 
 
 
+    public List<Integer> getAlltPoints(){
+        MyDatabase myDatabase = new MyDatabase(this);
+        return myDatabase.getAllPoints();
+    }
 
 }
 
