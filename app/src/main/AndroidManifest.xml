@@ -20,7 +20,6 @@
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".DifficultyActivity" />
         <activity android:name=".PunkteActivity" />
-        <activity android:name=".eingeloestActivity" />
         <activity android:name=".NeuesZiel" />
         <activity android:name=".Settings_Activity"></activity>
     </application>

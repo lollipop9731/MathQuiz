@@ -211,7 +211,11 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                         punktestand.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
                         break;
                 }
+
+                result.setText("");
             }
+
+
         };
 
         // set on clicklistener
