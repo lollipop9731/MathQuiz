@@ -14,18 +14,27 @@ import java.util.List;
  * Created by Lorenz on 26.12.2016.
  */
 
+
 public class MyDatabase {
 
     /**
      * Beschreibt die Tabelle
      */
     public static abstract class FeedEntry implements BaseColumns{
+
+        // Erste Datenbank
         public static final String TABLE_NAME = "entry";
         public static final String COLUMN_NAME_GOAL = "goal";
         public static final String COLUMN_NAME_POINTS = "points";
 
+        // Zeite Datenbank
+        public static final String SECOND_TABLE_NAME = "rewards";
+        public static final String SECOND_COLUMN_GOAL= "goals";
+        public static final String SECOND_COLUMN_DATETIME= "datetime";
+
     }
 
+    // create First Database
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
                     FeedEntry._ID + " INTEGER PRIMARY KEY," +
@@ -33,8 +42,19 @@ public class MyDatabase {
                     FeedEntry.COLUMN_NAME_POINTS + " INTEGER" +
                     " )";
 
+    // create second Database
+    private static final String SQL_CREATE_SECOND_TABLE=
+            "CREATE TABLE " + FeedEntry.SECOND_TABLE_NAME + " (" +
+                    FeedEntry._ID + " INTEGER PRIMARY KEY," +
+                    FeedEntry.SECOND_COLUMN_GOAL + " TEXT," +
+                    FeedEntry.SECOND_COLUMN_DATETIME + " INTEGER"+
+                    " )";
+
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
+
+    private static final String SQL_DELETE_SECOND=
+            "DROP TABLE IF EXISTS " +FeedEntry.SECOND_TABLE_NAME;
 
 
 
@@ -49,10 +69,13 @@ public class MyDatabase {
             super(context, DATABASE_NAME,null,DATABASE_VERSION);
         }
 
-        public void onCreate(SQLiteDatabase db) {db.execSQL(SQL_CREATE_ENTRIES);}
+        public void onCreate(SQLiteDatabase db) {
+            db.execSQL(SQL_CREATE_ENTRIES);
+            db.execSQL(SQL_CREATE_SECOND_TABLE);}
 
         public void onUpgrade(SQLiteDatabase db,int oldVersion, int newVersion){
             db.execSQL(SQL_DELETE_ENTRIES);
+            db.execSQL(SQL_DELETE_SECOND);
             onCreate(db);
         }
 
@@ -70,6 +93,9 @@ public class MyDatabase {
         this.context = context;
     }
 
+
+
+    // insert in FIRST Database
     public void insert(String goal,int points){
         FeedGoalsDbHelper mDbHelper = new FeedGoalsDbHelper(context);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -83,6 +109,55 @@ public class MyDatabase {
         } finally {
             db.close();
         }
+    }
+
+    // insert in SECOND Database
+    public void insertSecond(String goal,int datetime){
+
+        FeedGoalsDbHelper feedGoalsDbHelper = new FeedGoalsDbHelper(context);
+        SQLiteDatabase db = feedGoalsDbHelper.getWritableDatabase();
+
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(FeedEntry.SECOND_COLUMN_GOAL,goal);
+            contentValues.put(FeedEntry.SECOND_COLUMN_DATETIME,datetime);
+
+            long insert = db.insert(FeedEntry.SECOND_TABLE_NAME,null,contentValues);
+        } finally {
+            db.close();
+        }
+
+    }
+
+    // get all from Second DB
+    public List<Rewards> getAllFromSecond(){
+
+        List<Rewards> rewardsList = new ArrayList<>();
+
+        String SQLQuery = "SELECT * FROM " + FeedEntry.SECOND_TABLE_NAME;
+
+        FeedGoalsDbHelper feedGoalsDbHelper = new FeedGoalsDbHelper(context);
+        SQLiteDatabase db = feedGoalsDbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQLQuery,null);
+
+        if(cursor.moveToFirst()) {
+            try {
+                do {
+                    Rewards rewards = new Rewards();
+                    rewards.setGoal(cursor.getString(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_GOAL)));
+                    rewards.setDatetime(cursor.getInt(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_DATETIME)));
+
+                    rewardsList.add(rewards);
+
+                } while (cursor.moveToNext());
+            } finally {
+                db.close();
+            }
+        }
+
+        return rewardsList;
+
     }
 
     public List<String> getAllGoals(){
