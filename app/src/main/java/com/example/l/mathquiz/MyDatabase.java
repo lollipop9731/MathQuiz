@@ -71,7 +71,11 @@ public class MyDatabase {
 
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(SQL_CREATE_ENTRIES);
-            db.execSQL(SQL_CREATE_SECOND_TABLE);}
+            }
+
+        public void onCreateSecond(SQLiteDatabase db){
+            db.execSQL(SQL_CREATE_SECOND_TABLE);
+        }
 
         public void onUpgrade(SQLiteDatabase db,int oldVersion, int newVersion){
             db.execSQL(SQL_DELETE_ENTRIES);
@@ -112,7 +116,7 @@ public class MyDatabase {
     }
 
     // insert in SECOND Database
-    public void insertSecond(String goal,int datetime){
+    public void insertSecond(String goal,long datetime){
 
         FeedGoalsDbHelper feedGoalsDbHelper = new FeedGoalsDbHelper(context);
         SQLiteDatabase db = feedGoalsDbHelper.getWritableDatabase();
@@ -146,7 +150,7 @@ public class MyDatabase {
                 do {
                     Rewards rewards = new Rewards();
                     rewards.setGoal(cursor.getString(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_GOAL)));
-                    rewards.setDatetime(cursor.getInt(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_DATETIME)));
+                    rewards.setDatetime(cursor.getLong(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_DATETIME)));
 
                     rewardsList.add(rewards);
 
@@ -219,6 +223,7 @@ public class MyDatabase {
             db.close();
         }
     }
+
 
     public List<Integer> getIDbyName(String name){
         FeedGoalsDbHelper mDbHelper = new FeedGoalsDbHelper(context);
@@ -293,10 +298,30 @@ public class MyDatabase {
 
     }
 
+    public void deleteSecondDB(){
+        FeedGoalsDbHelper mDbHelper = new FeedGoalsDbHelper(context);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        try {
+            db.execSQL(SQL_DELETE_SECOND);
+        }finally {
+            db.close();
+        }
+
+
+    }
+
+
     public void createDB(){
         FeedGoalsDbHelper mDbHelper = new FeedGoalsDbHelper(context);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         mDbHelper.onCreate(db);
+    }
+
+    public void createSecondDB(){
+        FeedGoalsDbHelper mDbHelper = new FeedGoalsDbHelper(context);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        mDbHelper.onCreateSecond(db);
+
     }
 
     public void updateDB(String name,String update,String column){

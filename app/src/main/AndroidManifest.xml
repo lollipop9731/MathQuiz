@@ -20,8 +20,11 @@
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".DifficultyActivity" />
         <activity android:name=".PunkteActivity" />
-        <activity android:name=".NeuesZiel" />
-        <activity android:name=".Settings_Activity"></activity>
+        <activity android:name=".NeuesZielActivity" />
+        <activity android:name=".Settings_Activity" />
+        <activity
+            android:name=".RewardedPointsActivity"
+            android:theme="@style/AppThemeNoActionBar"></activity>
     </application>
 
 </manifest>

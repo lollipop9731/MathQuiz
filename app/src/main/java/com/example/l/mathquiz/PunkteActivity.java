@@ -19,9 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -60,6 +58,9 @@ public class  PunkteActivity extends AppCompatActivity {
         newziel = (Button) findViewById(R.id.newgoal);
 
 
+        setPoints(2000);
+
+
 
 
 
@@ -78,13 +79,16 @@ public class  PunkteActivity extends AppCompatActivity {
                 switch (v.getId()) {
                     case R.id.eingeloest:
 
+                        Intent intent = new Intent(PunkteActivity.this,RewardedPointsActivity.class);
+                        startActivity(intent);
+
                         break;
 
                     case R.id.newgoal:
                         if(getCheckbox()){
                         dialogPassswortZiele();}
                         else {
-                            Intent neu1 = new Intent(PunkteActivity.this, NeuesZiel.class);
+                            Intent neu1 = new Intent(PunkteActivity.this, NeuesZielActivity.class);
                             startActivity(neu1);
                         }
 
@@ -107,6 +111,10 @@ public class  PunkteActivity extends AppCompatActivity {
         super.onPause();
         // newButtonAfterUserInput();
 
+    }
+
+    public String getName(){
+        return this.name;
     }
 
 
@@ -170,7 +178,6 @@ public class  PunkteActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Zu wenige Punkte zum Einlösen!", Toast.LENGTH_SHORT).show();
                 } else {
                     dialogEinlösen(-points);
-
                 }
             }
         });
@@ -231,6 +238,11 @@ public class  PunkteActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
+
+
+
+                        MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+                        myDatabase.insertSecond(current.getText().toString(),System.currentTimeMillis());
                         setPoints(points);
                         setPunktestand();
                         pointsanimtetv.bringToFront();
@@ -242,10 +254,7 @@ public class  PunkteActivity extends AppCompatActivity {
                                 btn.setBackground(getResources().getDrawable(R.drawable.rechteckhell));
                                 btn.setTextColor(getResources().getColor(R.color.grau));
                                 //recreate();
-
-
                             }
-
 
                         }
 
@@ -339,7 +348,7 @@ public class  PunkteActivity extends AppCompatActivity {
 
 
                         if (passwort.equals(userpasswort)) {
-                            Intent neu1 = new Intent(PunkteActivity.this, NeuesZiel.class);
+                            Intent neu1 = new Intent(PunkteActivity.this, NeuesZielActivity.class);
                             startActivity(neu1);
 
                         } else{
@@ -375,7 +384,7 @@ public class  PunkteActivity extends AppCompatActivity {
 
 
                         current.getId();
-                        NeuesZiel neu1 = new NeuesZiel();
+                        NeuesZielActivity neu1 = new NeuesZielActivity();
 
 
                         neu1.deleteDBEntry(Integer.toString(current.getId()), MyDatabase.FeedEntry._ID, getApplicationContext());
@@ -429,7 +438,7 @@ public class  PunkteActivity extends AppCompatActivity {
     public void newButtonAfterUserInput() {
 
 
-        NeuesZiel neu2 = new NeuesZiel();
+        NeuesZielActivity neu2 = new NeuesZielActivity();
         int n = neu2.getAllGoalsFromDB(getApplicationContext()).size();
 
         for (int i = 0; i < n; i++) {
