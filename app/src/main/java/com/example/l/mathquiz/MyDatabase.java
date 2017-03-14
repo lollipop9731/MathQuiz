@@ -115,6 +115,14 @@ public class MyDatabase {
         }
     }
 
+    public void deleteAllEntriesonSecond(){
+        FeedGoalsDbHelper feedGoalsDbHelper = new FeedGoalsDbHelper(context);
+        SQLiteDatabase db = feedGoalsDbHelper.getWritableDatabase();
+
+        db.delete(FeedEntry.SECOND_TABLE_NAME,null,null);
+        db.close();
+    }
+
     // insert in SECOND Database
     public void insertSecond(String goal,long datetime){
 
