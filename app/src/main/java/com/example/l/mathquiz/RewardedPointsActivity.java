@@ -1,6 +1,7 @@
 package com.example.l.mathquiz;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static com.example.l.mathquiz.R.id.MathQuestion;
 import static com.example.l.mathquiz.R.id.settingsaction;
 
@@ -36,6 +39,9 @@ public class RewardedPointsActivity extends AppCompatActivity {
     MyDatabase myDatabase;
 
 
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +66,7 @@ public class RewardedPointsActivity extends AppCompatActivity {
 
 
         // Popup Menü
-
-
-        public void showPopUp(View v){
+    public void showPopUp(View v){
 
 
         MenuBuilder menuBuilder = new MenuBuilder(this);
@@ -107,7 +111,6 @@ public class RewardedPointsActivity extends AppCompatActivity {
 
             case R.id.settingsaction:
 
-                registerForContextMenu(findViewById(settingsaction));
                 showPopUp(findViewById(R.id.settingsaction));
 
 

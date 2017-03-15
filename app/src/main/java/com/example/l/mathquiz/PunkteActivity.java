@@ -9,7 +9,12 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,15 +29,16 @@ import java.util.List;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.example.l.mathquiz.R.id.settingsaction;
+
 public class  PunkteActivity extends AppCompatActivity {
 
     RelativeLayout ll;
-    View.OnClickListener onC;
-    TextView punktestandtv, eingelösttv;
+    TextView punktestandtv;
     PlusUndMinusActivity anim;
     TextView pointsanimtetv;
     int wieivielpoints;
-    Button  eingeloestbtn, newziel, neu, current;
+    Button  neu, current;
     ArrayList<Integer> buttonid = new ArrayList<>();
     ArrayList<Integer> pointsarray = new ArrayList<>();
     String name;
@@ -40,7 +46,7 @@ public class  PunkteActivity extends AppCompatActivity {
 
     Resources res;
 
-
+    // Schriftart
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
@@ -54,15 +60,6 @@ public class  PunkteActivity extends AppCompatActivity {
         punktestandtv = (TextView) findViewById(R.id.punktestand);
         pointsanimtetv = (TextView) findViewById(R.id.pointsanimate);
         anim = new PlusUndMinusActivity();
-        eingeloestbtn = (Button) findViewById(R.id.eingeloest);
-        newziel = (Button) findViewById(R.id.newgoal);
-
-
-        setPoints(2000);
-
-
-
-
 
         res = getResources();
 
@@ -73,32 +70,66 @@ public class  PunkteActivity extends AppCompatActivity {
         punktestandtv.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
 
 
-        View.OnClickListener onC = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.eingeloest:
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+
+            case R.id.settingsaction:
+
+                showPopUp(findViewById(settingsaction));
+
+
+                return true;
+        }
+        return true;
+    }
+
+    public void showPopUp(View v){
+
+
+        MenuBuilder menuBuilder = new MenuBuilder(this);
+        MenuInflater menuInflater = new MenuInflater(this);
+        menuInflater.inflate(R.menu.rewards_options,menuBuilder);
+
+        MenuPopupHelper menuPopupHelper = new MenuPopupHelper(this,menuBuilder,v);
+        menuPopupHelper.setForceShowIcon(true);
+        menuPopupHelper.show();
+
+        menuBuilder.setCallback(new MenuBuilder.Callback(){
+            @Override
+            public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+                switch (item.getItemId()) {
+                    // eingelöste Felder
+                    case R.id.rewardedfields:
                         Intent intent = new Intent(PunkteActivity.this,RewardedPointsActivity.class);
                         startActivity(intent);
+                        return true;
 
-                        break;
-
-                    case R.id.newgoal:
+                    //neues Ziel
+                    case R.id.zielehinzufügen:
                         if(getCheckbox()){
-                        dialogPassswortZiele();}
+                            dialogPassswortZiele();}
                         else {
                             Intent neu1 = new Intent(PunkteActivity.this, NeuesZielActivity.class);
                             startActivity(neu1);
                         }
-
-                        break;
+                        return true;
+                    default:
+                        return false;
                 }
             }
-        };
-        eingeloestbtn.setOnClickListener(onC);
-        newziel.setOnClickListener(onC);
 
+            @Override
+            public void onMenuModeChange(MenuBuilder menu) {}
+        });
 
     }
 
@@ -330,7 +361,7 @@ public class  PunkteActivity extends AppCompatActivity {
         passwortEditText = (EditText) view.findViewById(R.id.passwordid);
 
 
-        builder1.setMessage("Bitte Passwort eingeben um Ziele zu bearbeiten!");
+        builder1.setMessage("Bitte Passwort eingeben um Ziele hinzuzufügen!");
         builder1.setCancelable(true);
 
         builder1.setPositiveButton(
@@ -432,7 +463,7 @@ public class  PunkteActivity extends AppCompatActivity {
     }
 
     public int setMargin(int button) {
-        return button * 400 + 600 ;
+        return button * 400 ;
     }
 
     public void newButtonAfterUserInput() {

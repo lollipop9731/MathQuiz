@@ -40,32 +40,6 @@
         />
 
 
-
-    <Button
-        android:text=" Eingelöste Felder "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rechteck"
-        android:textColor="@color/weiß"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:textSize="18sp"
-        fontPath="fonts/PT_Serif-Web-Italic.ttf"
-        android:id="@+id/eingeloest" />
-
-    <Button
-        android:text=" Ziele bearbeiten "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rechteck"
-        android:textColor="@color/weiß"
-        android:id="@+id/newgoal"
-        android:layout_below="@+id/eingeloest"
-        android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        fontPath="fonts/PT_Serif-Web-Italic.ttf"
-        android:layout_marginTop="34dp" />
-
 </RelativeLayout>
 
 

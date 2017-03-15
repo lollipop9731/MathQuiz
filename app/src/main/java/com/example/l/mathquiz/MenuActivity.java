@@ -1,5 +1,6 @@
 package com.example.l.mathquiz;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MenuActivity extends AppCompatActivity  {
 
@@ -19,6 +22,9 @@ public class MenuActivity extends AppCompatActivity  {
     ImageButton settingsButton;
     int backButtonCount=0;
 
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
 

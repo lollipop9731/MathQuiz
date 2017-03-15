@@ -6,7 +6,7 @@
     android:padding='10sp' >
 
     <EditText
-        android:id='@+id/passwordid'
+        android:id='@+id/passwordidsingle'
         android:layout_width='fill_parent'
         android:layout_height='wrap_content'
         android:hint='Passwort'

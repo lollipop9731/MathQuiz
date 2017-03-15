@@ -9,6 +9,7 @@
     <color name="grau">#b9b9b9</color>
     <color name="weiß">#ffffff</color>
     <color name="color_shadow">#f3a8a8</color>
+    <color name="schwarz">#000000</color>
 
 
 </resources>
