@@ -3,8 +3,8 @@ package com.example.l.mathquiz;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -40,7 +40,7 @@ public class Settings_Activity extends AppCompatActivity {
         testList.addHeaderView(viewGroup);
 
 
-        String[] values = new String[]{"Passwortschutz", "Zahlenräume anpassen"};
+        String[] values = new String[]{"Passwortschutz","Geschütze Bereiche", "Zahlenräume anpassen"};
 
         ListAdapter listAdapter = new ListAdapter(this, values);
         testList.setAdapter(listAdapter);
@@ -49,11 +49,17 @@ public class Settings_Activity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getApplicationContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
+
                 switch (position) {
                     case 1:
                         break;
                     case 2:
+                        if(!getGeschützteBereiche()){
+                            Toast.makeText(getApplicationContext(),"Zuerst Passwortschutz aktivieren",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Bereiche wählen",Toast.LENGTH_SHORT).show();
+                        }
+
 
                         break;
                 }
@@ -64,7 +70,7 @@ public class Settings_Activity extends AppCompatActivity {
 
     }
 
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
 
     }
@@ -85,149 +91,22 @@ public class Settings_Activity extends AppCompatActivity {
     }
 
     /**
-     * Erstellt den ersten Dialog zum Erstellen eines Passwortes
+     * Wenn Bereiche deaktiviert sind false
+     * @param geschützteBereich
      */
-    public void dialogCreatePasswort() {
+    public void setGeschützteBereich(Boolean geschützteBereich){
+        SharedPreferences sharedPreferences = getSharedPreferences("Bereiche",0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        // inflate view
-        View view = (LayoutInflater.from(Settings_Activity.this)).inflate(R.layout.create_password, null);
-        alertDialog.setView(view);
-        // Erstellen
-        pw1 = (EditText) view.findViewById(R.id.passwordid);
-        // Bestätigen
-        pw2 = (EditText) view.findViewById(R.id.passwordid1);
-
-
-        alertDialog.setMessage("Bitte Passwort erstellen und bestätigen.");
-        alertDialog.setCancelable(true);
-
-        alertDialog.setPositiveButton(
-                "OK",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
-
-                        String passwort = "";
-                        String passwortconfirm = "";
-
-                        if (pw1.getText().length() > 0 && pw2.getText().length() > 0) {
-                            passwort = pw1.getText().toString();
-                            passwortconfirm = pw2.getText().toString();
-
-                            if (passwort.equals(passwortconfirm)) {
-
-                                setPassword(passwort);
-                                setCheckboxStatus(true);
-                                Toast.makeText(getApplicationContext(), "Passwort erstellt!", Toast.LENGTH_LONG).show();
-                                dialogInterface.cancel();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Passwörter stimmen nicht überein!", Toast.LENGTH_LONG).show();
-                                pwCheckBox.setChecked(false);
-                            }
-
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Bitte Text eingeben", Toast.LENGTH_SHORT).show();
-                            pwCheckBox.setChecked(false);
-                        }
-
-
-                    }
-                });
-
-        alertDialog.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-
-                pwCheckBox.setChecked(false);
-                dialogInterface.cancel();
-            }
-        });
-
-        alertDialog.create();
-        alertDialog.show();
-
-
+        editor.putBoolean("BereicheData",geschützteBereich);
+        editor.commit();
     }
 
-    public void dialogPasswortDeaktivieren() {
-
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        // inflate view
-        View view = (LayoutInflater.from(Settings_Activity.this)).inflate(R.layout.login_dialog, null);
-        alertDialog.setView(view);
-        // Erstellen
-        pw1 = (EditText) view.findViewById(R.id.passwordid);
-
-        alertDialog.setMessage("Bitte Passwort eingeben.");
-        alertDialog.setCancelable(true);
-
-        alertDialog.setPositiveButton(
-                "OK",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int id) {
-
-                        String passwort = "";
-
-
-                        if (pw1.getText().length() > 0) {
-                            passwort = pw1.getText().toString();
-
-
-                            if (passwort.equals(getPassword())) {
-
-                                setPassword(passwort);
-
-                                Toast.makeText(getApplicationContext(), "Passwortschutz deaktiviert!", Toast.LENGTH_SHORT).show();
-                                pwCheckBox.setChecked(false);
-                                setCheckboxStatus(false);
-                                dialogInterface.cancel();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Passwörter nicht korrekt!", Toast.LENGTH_LONG).show();
-                                pwCheckBox.setChecked(true);
-                            }
-
-
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Bitte Text eingeben", Toast.LENGTH_SHORT).show();
-                            pwCheckBox.setChecked(true);
-                        }
-
-
-                    }
-                });
-
-        alertDialog.setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-                pwCheckBox.setChecked(true);
-                dialogInterface.cancel();
-            }
-        });
-
-        alertDialog.create();
-        alertDialog.show();
-
-
+    public boolean getGeschützteBereiche(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Bereiche",0);
+        return  sharedPreferences.getBoolean("BereicheData",false);
     }
 
-    public void OnCheckboxClicked(View view) {
-
-        Boolean isChecked = ((CheckBox) view).isChecked();
-
-        if (isChecked) {
-            dialogCreatePasswort();
-        } else {
-            dialogPasswortDeaktivieren();
-
-        }
-    }
 
     public boolean getCheckboxStatus() {
         SharedPreferences sharedPreferences = getSharedPreferences("Checkbox", 0);
@@ -251,7 +130,8 @@ public class Settings_Activity extends AppCompatActivity {
 
 
         private final Context context;
-        private final String[] values;
+        public final String[] values;
+
 
         public ListAdapter(Context context, String[] values) {
             super(context, -1, values);
@@ -260,7 +140,7 @@ public class Settings_Activity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View rowView = convertView;
 
             if (rowView == null) {
@@ -279,7 +159,7 @@ public class Settings_Activity extends AppCompatActivity {
 
             final ViewHolder holder = (ViewHolder) rowView.getTag();
             // set Text from Arraylist
-            String textvalues = values[position];
+            final String textvalues = values[position];
             holder.textView.setText(textvalues);
 
             if (textvalues.equals("Zahlenräume anpassen")) {
@@ -289,6 +169,28 @@ public class Settings_Activity extends AppCompatActivity {
             if (textvalues.equals("Passwortschutz")) {
                 holder.arrowright.setVisibility(View.GONE);
             }
+            if(textvalues.equals("Geschütze Bereiche")){
+                holder.imageView.setVisibility(View.INVISIBLE);
+                holder.settingsCheckbox.setVisibility(View.GONE);
+            }
+
+            if(holder.settingsCheckbox.isChecked()){
+                if(textvalues.equals("Geschütze Bereiche")){
+                    holder.textView.setTypeface(null,Typeface.NORMAL);
+                    holder.textView.setTextColor(getResources().getColor(R.color.schwarz));
+                    setGeschützteBereich(true);
+                }
+            }else {
+                if(textvalues.equals("Geschütze Bereiche")){
+                    holder.textView.setTextColor(getResources().getColor(R.color.grau));
+                    holder.textView.setTypeface(null, Typeface.ITALIC);
+                    setGeschützteBereich(false);
+
+
+                }
+            }
+
+
 
             if (getCheckboxStatus()) {
                 holder.settingsCheckbox.setChecked(true);
@@ -302,107 +204,127 @@ public class Settings_Activity extends AppCompatActivity {
                     final Boolean aBoolean = holder.settingsCheckbox.isChecked();
                     setCheckboxStatus(holder.settingsCheckbox.isChecked());
 
+
                     final View view;
 
 
                     // Passwort aktiviert
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setMessage("Passwort eingeben und bestätigen");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Passwort eingeben und bestätigen");
 
-                        if(aBoolean) {
-                            view = LayoutInflater.from(Settings_Activity.this).inflate(R.layout.create_password, null);
-                        }else{
-                            view = LayoutInflater.from(Settings_Activity.this).inflate(R.layout.login_dialog, null);
-                        }
+                    if (aBoolean) {
+                        view = LayoutInflater.from(Settings_Activity.this).inflate(R.layout.create_password, null);
+                    } else {
+                        view = LayoutInflater.from(Settings_Activity.this).inflate(R.layout.login_dialog, null);
+                    }
 
-                        builder.setView(view);
+                    builder.setView(view);
 
-                        builder.setCancelable(true);
+                    builder.setCancelable(true);
 
-                        builder.setPositiveButton(
-                                "OK",
+                    builder.setPositiveButton(
+                            "OK",
 
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
 
-                                        if(aBoolean) {
-                                            EditText passwortEditText = (EditText)view.findViewById(R.id.passwordid);
-                                            EditText passwortEditTextconfirm = (EditText)view.findViewById(R.id.passwordid1);
-                                            String userpasswortconfirm = passwortEditTextconfirm.getText().toString();
-                                            String userpasswort = passwortEditText.getText().toString();
-                                            if (userpasswort.length() > 0 && userpasswortconfirm.length() > 0) {
-                                                if (userpasswortconfirm.equals(userpasswort)) {
-                                                    Toast.makeText(getApplicationContext(), "Passwort aktiviert", Toast.LENGTH_LONG).show();
-                                                    setPassword(userpasswort);
-                                                    holder.settingsCheckbox.setChecked(true);
-                                                    setCheckboxStatus(true);
-
-
-                                                } else {
-                                                    Toast.makeText(getApplicationContext(), "Passwörter stimmen nicht überein!", Toast.LENGTH_LONG).show();
-
-                                                }
-
-                                                dialog.cancel();
-                                            } else {
-                                                Toast.makeText(getContext(), "Bitte Text eingeben.", Toast.LENGTH_SHORT).show();
-                                                holder.settingsCheckbox.setChecked(false);
-                                                setCheckboxStatus(false);
-                                            }
-
-                                        }else {
-                                            EditText passwortEditText = (EditText)view.findViewById(R.id.passwordidsingle);
-                                            String userpasswort = passwortEditText.getText().toString();
-                                            if(userpasswort.equals(getPassword())){
-                                                Toast.makeText(getContext(),"Passwort deaktiviert",Toast.LENGTH_SHORT).show();
-                                            }else{
-                                                Toast.makeText(getApplicationContext(), "Falsches Passwort!", Toast.LENGTH_LONG).show();
+                                    if (aBoolean) {
+                                        EditText passwortEditText = (EditText) view.findViewById(R.id.passwordid);
+                                        EditText passwortEditTextconfirm = (EditText) view.findViewById(R.id.passwordid1);
+                                        String userpasswortconfirm = passwortEditTextconfirm.getText().toString();
+                                        String userpasswort = passwortEditText.getText().toString();
+                                        if (userpasswort.length() > 0 && userpasswortconfirm.length() > 0) {
+                                            if (userpasswortconfirm.equals(userpasswort)) {
+                                                Toast.makeText(getApplicationContext(), "Passwort aktiviert", Toast.LENGTH_LONG).show();
+                                                setPassword(userpasswort);
                                                 holder.settingsCheckbox.setChecked(true);
                                                 setCheckboxStatus(true);
 
+
+
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Passwörter stimmen nicht überein!", Toast.LENGTH_LONG).show();
+
                                             }
-                                        }
 
-
-
-                                    }
-
-                                });
-
-                        builder.setNegativeButton(
-                                "Abbrechen",
-                                new DialogInterface.OnClickListener(){
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if(aBoolean) {
-
+                                            dialog.cancel();
+                                        } else {
+                                            Toast.makeText(getContext(), "Bitte Text eingeben.", Toast.LENGTH_SHORT).show();
                                             holder.settingsCheckbox.setChecked(false);
                                             setCheckboxStatus(false);
-                                            dialog.cancel();
-                                        }else{
+                                        }
+
+                                    } else {
+                                        EditText passwortEditText = (EditText) view.findViewById(R.id.passwordidsingle);
+                                        String userpasswort = passwortEditText.getText().toString();
+                                        if (userpasswort.equals(getPassword())) {
+                                            Toast.makeText(getContext(), "Passwort deaktiviert", Toast.LENGTH_SHORT).show();
+                                            // Geschütze Bereiche ausblenden
+
+
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Falsches Passwort!", Toast.LENGTH_LONG).show();
                                             holder.settingsCheckbox.setChecked(true);
                                             setCheckboxStatus(true);
 
                                         }
                                     }
+
+
                                 }
-                        );
 
-                        builder.create();
-                        builder.show();
+                            });
+
+                    builder.setNegativeButton(
+                            "Abbrechen",
+                            new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (aBoolean) {
+
+                                        holder.settingsCheckbox.setChecked(false);
+                                        setCheckboxStatus(false);
+                                        dialog.cancel();
+                                    } else {
+                                        holder.settingsCheckbox.setChecked(true);
+                                        setCheckboxStatus(true);
+
+                                    }
+                                }
+                            }
+                    );
+
+                    builder.create();
+                    builder.show();
 
 
-                        //Passwort deaktiviert
+                    //Passwort deaktiviert
 
 
                 }
             });
+
+            if(holder.settingsCheckbox.isChecked()){
+                if(textvalues.equals("Geschütze Bereiche")){
+                    holder.textView.setTextColor(getResources().getColor(R.color.schwarz));
+                    holder.textView.setTypeface(null,Typeface.NORMAL);
+                    setGeschützteBereich(true);
+
+                }
+            }else {
+                if(textvalues.equals("Geschütze Bereiche")){
+                    holder.textView.setTextColor(getResources().getColor(R.color.grau));
+                    holder.textView.setTypeface(null, Typeface.ITALIC);
+                    setGeschützteBereich(false);
+
+
+                }
+            }
+
             return rowView;
         }
 
@@ -412,6 +334,7 @@ public class Settings_Activity extends AppCompatActivity {
             public ImageView arrowright;
             public CheckBox settingsCheckbox;
         }
+
 
 
     }
