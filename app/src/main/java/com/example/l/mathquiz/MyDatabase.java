@@ -172,6 +172,37 @@ public class MyDatabase {
 
     }
 
+    public List<Rewards> getInTimespan(long beginn,long end){
+
+        List <Rewards> rewardsList = new ArrayList<>();
+
+        String SQLQuery = "SELECT * FROM "+FeedEntry.SECOND_TABLE_NAME + " WHERE "+FeedEntry.SECOND_COLUMN_DATETIME+ " between "+ beginn +" and " + end ;
+
+        FeedGoalsDbHelper feedGoalsDbHelper = new FeedGoalsDbHelper(context);
+        SQLiteDatabase db = feedGoalsDbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(SQLQuery,null);
+
+        if(cursor.moveToFirst()) {
+            try {
+                do {
+                    Rewards rewards = new Rewards();
+                    rewards.setGoal(cursor.getString(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_GOAL)));
+                    rewards.setDatetime(cursor.getLong(cursor.getColumnIndex(FeedEntry.SECOND_COLUMN_DATETIME)));
+
+                    rewardsList.add(rewards);
+
+                } while (cursor.moveToNext());
+            } finally {
+                db.close();
+            }
+        }
+
+        return rewardsList;
+
+
+    }
+
     public List<String> getAllGoals(){
         FeedGoalsDbHelper mDbHelper = new FeedGoalsDbHelper(context);
         SQLiteDatabase db = mDbHelper.getReadableDatabase();

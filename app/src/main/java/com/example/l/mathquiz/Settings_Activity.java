@@ -40,7 +40,7 @@ public class Settings_Activity extends AppCompatActivity {
         testList.addHeaderView(viewGroup);
 
 
-        String[] values = new String[]{"Passwortschutz","Geschütze Bereiche", "Zahlenräume anpassen"};
+        String[] values = new String[]{"Passwortschutz","Geschützte Bereiche", "Zahlenräume anpassen"};
 
         ListAdapter listAdapter = new ListAdapter(this, values);
         testList.setAdapter(listAdapter);
@@ -169,19 +169,19 @@ public class Settings_Activity extends AppCompatActivity {
             if (textvalues.equals("Passwortschutz")) {
                 holder.arrowright.setVisibility(View.GONE);
             }
-            if(textvalues.equals("Geschütze Bereiche")){
+            if(textvalues.equals("Geschützte Bereiche")){
                 holder.imageView.setVisibility(View.INVISIBLE);
                 holder.settingsCheckbox.setVisibility(View.GONE);
             }
 
             if(holder.settingsCheckbox.isChecked()){
-                if(textvalues.equals("Geschütze Bereiche")){
+                if(textvalues.equals("Geschützte Bereiche")){
                     holder.textView.setTypeface(null,Typeface.NORMAL);
                     holder.textView.setTextColor(getResources().getColor(R.color.schwarz));
                     setGeschützteBereich(true);
                 }
             }else {
-                if(textvalues.equals("Geschütze Bereiche")){
+                if(textvalues.equals("Geschützte Bereiche")){
                     holder.textView.setTextColor(getResources().getColor(R.color.grau));
                     holder.textView.setTypeface(null, Typeface.ITALIC);
                     setGeschützteBereich(false);
@@ -309,14 +309,14 @@ public class Settings_Activity extends AppCompatActivity {
             });
 
             if(holder.settingsCheckbox.isChecked()){
-                if(textvalues.equals("Geschütze Bereiche")){
+                if(textvalues.equals("Geschützte Bereiche")){
                     holder.textView.setTextColor(getResources().getColor(R.color.schwarz));
                     holder.textView.setTypeface(null,Typeface.NORMAL);
                     setGeschützteBereich(true);
 
                 }
             }else {
-                if(textvalues.equals("Geschütze Bereiche")){
+                if(textvalues.equals("Geschützte Bereiche")){
                     holder.textView.setTextColor(getResources().getColor(R.color.grau));
                     holder.textView.setTypeface(null, Typeface.ITALIC);
                     setGeschützteBereich(false);
