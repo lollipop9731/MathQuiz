@@ -26,6 +26,7 @@
             android:name=".RewardedPointsActivity"
             android:theme="@style/AppThemeNoActionBar" />
         <activity android:name=".PasswordActivity" />
+        <activity android:name=".ZahlenraumActivity"></activity>
     </application>
 
 </manifest>

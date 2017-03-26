@@ -1,5 +1,12 @@
 package com.example.l.mathquiz;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Lorenz on 22.03.2017.
  */
@@ -53,6 +60,15 @@ public class DateTest extends Object {
     public void setYear(int year) {
         this.year = year;
     }
+
+    public long toMillis(){
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(getYear(),getMonth()-1,getDay());
+        return calendar.getTimeInMillis();
+    }
+
 
     public String toString(){
         return getDay() + "." +getMonth()+"."+getYear();

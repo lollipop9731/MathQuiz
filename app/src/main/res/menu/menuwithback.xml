@@ -9,5 +9,11 @@
         android:title=""
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/arrowback"
+        android:icon="@drawable/ic_arrow_back_white_24dp"
+        android:title=""
+        app:showAsAction="ifRoom"/>
+
 
 </menu>

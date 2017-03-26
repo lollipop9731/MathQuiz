@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -33,7 +34,7 @@ public class RewardedPointsActivity extends AppCompatActivity {
     MyDatabase myDatabase;
     ArrayAdapter<Rewards> arrayAdapter;
     List<Rewards> list;
-
+    public AlertDialog dialog;
 
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -56,7 +57,17 @@ public class RewardedPointsActivity extends AppCompatActivity {
         // Custom Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         toolbar.setTitleTextColor(getColor(R.color.weiß));
+        toolbar.setTitle("Eingelöste Felder");
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
 
     }
 
@@ -81,11 +92,6 @@ public class RewardedPointsActivity extends AppCompatActivity {
                         DialogReset();
                         return true;
                     case R.id.zeitraum:
-
-
-                        List<Rewards> list2 = myDatabase.getInTimespan(1489618800000L, 1489932768548L);
-                        ArrayAdapter arrayAdapter = new ArrayAdapter<Rewards>(RewardedPointsActivity.this, android.R.layout.simple_list_item_1, list2);
-                        Rewards.setAdapter(arrayAdapter);
 
                         TimeRangeDialog();
 
@@ -163,31 +169,79 @@ public class RewardedPointsActivity extends AppCompatActivity {
 
     public void TimeRangeDialog() {
 
-        final AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Zeitspanne wählen")
-                .setView(R.layout.timerange)
-                .create();
+        dialog = new AlertDialog.Builder(this)
+
+
+        .setView(R.layout.timerange)
+        .setMessage("Zeitraum wählen")
+        .setCancelable(true)
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                MyDatabase myDatabase = new MyDatabase(getApplicationContext());
+                DateTest Anfangsdatum = (DateTest)getDate("DateFirst");
+                DateTest Enddatum = (DateTest)getDate("DateSecond");
+                list = myDatabase.getInTimespan(Anfangsdatum.toMillis(),Enddatum.toMillis());
+                arrayAdapter = new ArrayAdapter<Rewards>(RewardedPointsActivity.this, android.R.layout.simple_list_item_1, list);
+                Rewards.setAdapter(arrayAdapter);
+                dialog.cancel();
+            }
+        })
+        .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        })
+
+        .create();
+
+
 
         dialog.show();
 
+
+
+
+
+
+
         final Button Anfang = (Button) dialog.findViewById(R.id.anfangid);
         final Button Ende = (Button) dialog.findViewById(R.id.endeid);
-        Anfang.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog();
-                Anfang.setText(getDate().toString());
+
+                switch(v.getId()){
+                    case R.id.anfangid:
+                        DatePickerDialog(0);
+                        break;
+
+                    case R.id.endeid:
+                        DatePickerDialog(1);
+                        break;
+                }
             }
-        });
+        };
+
+        Anfang.setOnClickListener(onClickListener);
+        Ende.setOnClickListener(onClickListener);
+
+
+
     }
 
-
-    public void DatePickerDialog() {
+    /**
+     *
+     * @param modus 0 for startdate 1 for enddate
+     */
+    public void DatePickerDialog(final int modus) {
 
         Calendar calendar = Calendar.getInstance();
 
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(RewardedPointsActivity.this, new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog datePickerDialog = new DatePickerDialog(RewardedPointsActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
@@ -196,7 +250,22 @@ public class RewardedPointsActivity extends AppCompatActivity {
                 dateTest.setMonth(month);
                 dateTest.setYear(year);
 
-                setDate(dateTest);
+                if(modus==0) {
+                    setDate(dateTest, "DateFirst");
+                    final Button Anfang = (Button)dialog.findViewById(R.id.anfangid);
+                    Anfang.setText(getDate("DateFirst").toString());
+                }
+                if(modus==1){
+                    setDate(dateTest,"DateSecond");
+                    final Button Ende = (Button)dialog.findViewById(R.id.endeid);
+                    Ende.setText(getDate("DateSecond").toString());
+                }
+
+
+
+
+
+
 
 
             }
@@ -206,17 +275,27 @@ public class RewardedPointsActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    public Object getDate() {
+    /**
+     *
+     * @param key DateFirst for Anfang, DateSecond for Ende des Zeitraums.
+     * @return
+     */
+    public Object getDate(String key) {
         SharedPreferences sharedPreferences = getSharedPreferences("Date", 0);
 
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("DateData", "");
+        String json = sharedPreferences.getString(key, "");
         return gson.fromJson(json, DateTest.class);
 
 
     }
 
-    public void setDate(DateTest date) {
+    /**
+     *
+     * @param date
+     * @param key DateFirst vor Anfangsdatum. DateSecond for Enddatum
+     */
+    public void setDate(DateTest date,String key) {
 
         SharedPreferences sharedPreferences = getSharedPreferences("Date", 0);
 
@@ -226,7 +305,7 @@ public class RewardedPointsActivity extends AppCompatActivity {
 
         String json = gson.toJson(date);
 
-        editor.putString("DateData", json);
+        editor.putString(key, json);
         editor.commit();
 
 

@@ -32,7 +32,6 @@ public class NeuesZielActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name_neuesziel);
         points = (EditText) findViewById(R.id.punkte_neuesziel);
         test = (TextView) findViewById(R.id.testtv1);
-        Dbbtn = (Button) findViewById(R.id.button1);
 
 
         View.OnClickListener onL = new View.OnClickListener() {
@@ -55,11 +54,6 @@ public class NeuesZielActivity extends AppCompatActivity {
                         break;
 
 
-                    case R.id.button1:
-
-
-                        test.setText(getAllGoalsFromDB(getApplicationContext()).toString());
-
 
                 }
 
@@ -67,7 +61,7 @@ public class NeuesZielActivity extends AppCompatActivity {
         };
 
         add.setOnClickListener(onL);
-        Dbbtn.setOnClickListener(onL);
+
 
 
     }

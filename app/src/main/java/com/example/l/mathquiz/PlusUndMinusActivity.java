@@ -99,7 +99,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         pointsanimatetv = (TextView) findViewById(R.id.pointsanimate);
 
         // Erste Aufgabe
-        mathquestion.setText(NewTerm(getCategory()));
+        mathquestion.setText(NewTerm());
 
         punktestand.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
 
@@ -176,7 +176,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                                 counter = 0;
 
                                 // Neue Aufgabe
-                                mathquestion.setText(NewTerm(getCategory()));
+                                mathquestion.setText(NewTerm());
 
                                 // if user input is NOT correct
                             } else {
@@ -201,11 +201,12 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
                                 // New Term at every second try.
                                 if (counter % 2 == 0)
-                                    mathquestion.setText(NewTerm(getCategory()));
+                                    mathquestion.setText(NewTerm());
                             }
                             // if result is empty, show toast
                         } else {
-                            Toast.makeText(getApplicationContext(),"Bitte eine Zahl eingeben " + R.string.nameplayer,Toast.LENGTH_LONG).show();
+                            mathquestion.setText(NewTerm());
+                            //Toast.makeText(getApplicationContext(),"Bitte eine Zahl eingeben",Toast.LENGTH_LONG).show();
                         }
                         // set points
                         punktestand.setText(getResources().getString(R.string.points) + " " + Integer.toString(getPoints()));
@@ -283,9 +284,10 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
                     // Erste Schleife, sucht alle Teiler, außer 1 und die Zahl selbst
                     while (true) {
+                        teiler.clear();
                         operand1 = newRandom.nextInt(49) + 2;
-                        for (int i = 1; i <= operand1; i++) {
-                            if (operand1 % i == 0 && i != operand1 && i != 1) {
+                        for (int i = 2; i < operand1; i++) {
+                            if (operand1 % i == 0 ) {
                                 teiler.add(i);
                             }
                         }
@@ -315,9 +317,10 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
                     // Alle Teiler der zufälligen Zahl zu Array hinzufügen.
                     while (true) {
+                        teiler.clear();
                         operand1 = newRandom.nextInt(150) + 20;
-                        for (int i = 1; i <= operand1; i++) {
-                            if (operand1 % i == 0 && i != operand1 && i != 1) {
+                        for (int i = 2; i < operand1; i++) {
+                            if (operand1 % i == 0) {
                                 teiler.add(i);
                             }
                         }
@@ -347,11 +350,12 @@ public class PlusUndMinusActivity extends AppCompatActivity {
 
                 case 3:
 
-                    // erste Zahl zwischen 100-200
+                    // erste Zahl zwischen 50-300
                     while (true) {
+                        teiler.clear();
                         operand1 = newRandom.nextInt(250) + 50;
-                        for (int i = 1; i <= operand1; i++) {
-                            if (operand1 % i == 0 && i != operand1 && i != 1) {
+                        for (int i = 2; i < operand1; i++) {
+                            if (operand1 % i == 0) {
                                 teiler.add(i);
                             }
                         }
@@ -374,6 +378,8 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                             operand1 = newRandom.nextInt(250) + 50;
                         }
                     }
+
+
 
 
                     break;
@@ -553,19 +559,163 @@ public class PlusUndMinusActivity extends AppCompatActivity {
      *
      * @param category
      */
-    public String NewTerm(int category) {
-        switch (category) {
+    public String NewTerm() {
+
+        Random newRandom = new Random();
+        int whichone = newRandom.nextInt(2);
+
+        switch (getCategory()) {
             case 1:
                 return newRandomtermPlusMinusNEU(getDifficulty());
 
             case 2:
-                return newRandomtermMalGeteilt(getDifficulty());
+
+                switch (whichone){
+                    case 0:
+                       return NewMalTerm();
+                    case 1:
+                       return NewGeteiltTerm();
+                }
+
 
             case 3:
                 return newRandomtermAlleVier();
 
         }
         return "";
+    }
+
+    public String NewGeteiltTerm(){
+
+        Random newRandom = new Random();
+        // Alle Teiler
+        ArrayList<Integer> teiler = new ArrayList<Integer>();
+
+        // ArrayList mit ausgewählten Teiler, mit Ergebnis unter X
+        ArrayList<Integer> finalteiler = new ArrayList<>();
+
+        switch (getDifficulty()) {
+            case 1:
+
+                // Erste Schleife, sucht alle Teiler, außer 1 und die Zahl selbst
+                while (true) {
+                    teiler.clear();
+                    operand1 = newRandom.nextInt(50)+2;
+                    for (int i = 2; i < operand1; i++) {
+                        if (operand1 % i == 0) {
+                            teiler.add(i);
+                        }
+                    }
+                    // Wenn größer als null, sonst wieder nach oben und neue Zahl generieren
+                    if (teiler.size() > 0) {
+                        operand2 = teiler.get(newRandom.nextInt(teiler.size()));
+                        if(operand1/operand2>5 && operand1/operand2<10){
+                            break;
+                        }
+
+                    }
+                }
+
+                break;
+
+            case 2:
+
+                // erste Zahl zwischen 50-150
+
+
+                // Alle Teiler der zufälligen Zahl zu Array hinzufügen.
+                while (true) {
+                    teiler.clear();
+                    operand1 = newRandom.nextInt(150) + 50;
+                    for (int i = 2; i < operand1; i++) {
+                        if (operand1 % i == 0) {
+                            teiler.add(i);
+                        }
+                    }
+                    // Wenn größer als null, sonst wieder nach oben und neue Zahl generieren
+                    if (teiler.size() > 0) {
+                        operand2 = teiler.get(newRandom.nextInt(teiler.size()));
+                        if(operand1/operand2>5 && operand1/operand2<10){
+                            break;
+                        }
+
+                    }
+                }
+
+
+                break;
+
+            case 3:
+
+                // erste Zahl zwischen 50-300
+                while (true) {
+                    teiler.clear();
+                    operand1 = newRandom.nextInt(250) + 50;
+                    for (int i = 2; i < operand1; i++) {
+                        if (operand1 % i == 0) {
+                            teiler.add(i);
+                        }
+                    }
+                    // Wenn größer als null, sonst wieder nach oben und neue Zahl generieren
+                    if (teiler.size() > 0) {
+                      operand2 = teiler.get(newRandom.nextInt(teiler.size()));
+                        if(operand1/operand2>5 && operand1/operand2<10){
+                            break;
+                        }
+
+                    }
+                }
+                break;
+        }
+
+        this.correctresult = operand1 / operand2;
+
+
+
+    // return string
+    String term = "Was ergibt " + Integer.toString(this.operand1) + " ÷ " + Integer.toString(this.operand2) +
+            " ? ";
+    return term;
+
+
+}
+
+    public String NewMalTerm(){
+
+        Random newRandom = new Random();
+        switch (getDifficulty()) {
+            case 1:
+                // random number between 2-10
+                operand1 = newRandom.nextInt(9) + 2;
+
+                // generate number, so the result is below 50
+                operand2 = newRandom.nextInt(50 / operand1) + 1;
+                break;
+
+            case 2:
+                // random numbers between 5-15
+                operand1 = newRandom.nextInt(10) + 5;
+
+                // generate number, so the result is between 50-100
+                operand2 = newRandom.nextInt(50 / operand1) + 50 / operand1;
+
+                break;
+
+            case 3:
+                // random numbers between 10-20
+                operand1 = newRandom.nextInt(20) + 10;
+
+                // generate number, so the result is between 100-150
+                operand2 = newRandom.nextInt(100 / operand1) + 100 / operand1;
+                break;
+
+        }
+
+        this.correctresult = operand1 * operand2;
+
+        String term = "Was ergibt " + Integer.toString(this.operand1) + " * " + Integer.toString(this.operand2) +
+                " ? ";
+        return term;
     }
 }
 

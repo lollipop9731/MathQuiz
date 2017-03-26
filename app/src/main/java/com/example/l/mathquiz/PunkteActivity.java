@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.view.menu.MenuPopupHelper;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,6 +63,7 @@ public class  PunkteActivity extends AppCompatActivity {
         anim = new PlusUndMinusActivity();
 
         res = getResources();
+
 
 
         newButtonAfterUserInput();
@@ -161,6 +163,7 @@ public class  PunkteActivity extends AppCompatActivity {
         wieivielpoints = points;
         final Button newbtn = new Button(getApplicationContext());
         newbtn.setId(id);
+
         this.name = name;
 
         buttonid.add(id);
@@ -176,6 +179,7 @@ public class  PunkteActivity extends AppCompatActivity {
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/PT_Serif-Web-Italic.ttf");
 
 
+
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) newbtn.getLayoutParams();
         lp.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         lp.setMargins(0, margintop, 0, 0);
@@ -184,10 +188,10 @@ public class  PunkteActivity extends AppCompatActivity {
         newbtn.setAllCaps(false);
         newbtn.setTypeface(font);
         newbtn.setTextSize(18);
-        newbtn.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+        newbtn.setTextColor(getResources().getColor(R.color.weiß));
         if (getPoints() >= points) {
             newbtn.setBackground(getResources().getDrawable(R.drawable.rechteck));
-            newbtn.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            newbtn.setTextColor(getResources().getColor(R.color.weiß));
 
         }
         if (getPoints() < points) {
@@ -311,7 +315,7 @@ public class  PunkteActivity extends AppCompatActivity {
 
         View view = (LayoutInflater.from(PunkteActivity.this)).inflate(R.layout.login_dialog, null);
         builder1.setView(view);
-        passwortEditText = (EditText) view.findViewById(R.id.passwordid);
+        passwortEditText = (EditText) view.findViewById(R.id.passwordidsingle);
 
 
         builder1.setMessage("Bitte Passwort eingeben um fortzufahren.");
