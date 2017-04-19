@@ -505,6 +505,9 @@ public class PlusUndMinusActivity extends AppCompatActivity {
      * @return String Term
      */
     public String newRandomtermPlusMinusNEU(int difficulty) {
+        int plusmin,plusmax;
+
+        ZahlenraumActivity zahlenraumActivity = new ZahlenraumActivity();
 
         Random newRandom = new Random();
         operators = new String[]{"+", "-"};
@@ -512,16 +515,26 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         // bei plus
         switch (difficulty) {
             case 1:
-                operand1 = newRandom.nextInt(20);
-                operand2 = newRandom.nextInt(20);
+
+                plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MINIMUM);
+                plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MAXIMUM);
+
+                operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
+                operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
                 break;
+
             case 2:
-                operand1 = newRandom.nextInt(55) + 20;
-                operand2 = newRandom.nextInt(55) + 20;
+
+                plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MINIMUM);
+                plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MAXIMUM);
+                operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
+                operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
                 break;
             case 3:
-                operand1 = newRandom.nextInt(75) + 75;
-                operand2 = newRandom.nextInt(75) + 75;
+                plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MINIMUM);
+                plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MAXIMUM);
+                operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
+                operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
                 break;
         }
 
@@ -716,6 +729,11 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         String term = "Was ergibt " + Integer.toString(this.operand1) + " * " + Integer.toString(this.operand2) +
                 " ? ";
         return term;
+    }
+
+    public int getZahlenraum(String Category, String Difficulty, String minormax){
+        SharedPreferences sharedPreferences = getSharedPreferences(Category,0);
+        return sharedPreferences.getInt(Difficulty+minormax,0);
     }
 }
 

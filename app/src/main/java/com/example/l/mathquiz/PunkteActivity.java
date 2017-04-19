@@ -362,7 +362,7 @@ public class  PunkteActivity extends AppCompatActivity {
 
         View view = (LayoutInflater.from(PunkteActivity.this)).inflate(R.layout.login_dialog, null);
         builder1.setView(view);
-        passwortEditText = (EditText) view.findViewById(R.id.passwordid);
+        passwortEditText = (EditText) view.findViewById(R.id.passwordidsingle);
 
 
         builder1.setMessage("Bitte Passwort eingeben um Ziele hinzuzufügen!");

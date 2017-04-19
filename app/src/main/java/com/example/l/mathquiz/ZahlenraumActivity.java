@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -16,19 +17,19 @@ public class ZahlenraumActivity extends AppCompatActivity {
     Spinner difficulty;
 
     // Konstanten Category
-    private static String PLUS = "PLUS";
-    private static String MINUS = "MINUS";
-    private static String MAL = "MAL";
-    private static String GETEILT = "GETEILT";
+    public static String PLUS = "PLUS";
+    public static String MINUS = "MINUS";
+    public static String MAL = "MAL";
+    public static String GETEILT = "GETEILT";
 
     // Konstanten Difficulty
-    private static String LEICHT = "LEICHT";
-    private static String MITTEL = "MITTEL";
-    private static String SCHWER = "SCHWER";
+    public static String LEICHT = "LEICHT";
+    public static String MITTEL = "MITTEL";
+    public static String SCHWER = "SCHWER";
 
     // Konstanten Minimum or Maximum
-    private static String MINIMUM = "MINIMUM";
-    private static String MAXIMUM = "MAXIMUM";
+    public static String MINIMUM = "MINIMUM";
+    public static String MAXIMUM = "MAXIMUM";
 
 
     @Override
@@ -47,6 +48,21 @@ public class ZahlenraumActivity extends AppCompatActivity {
         Save =(Button)findViewById(R.id.saveButton);
         Load = (Button)findViewById(R.id.zahlenraum_load);
         difficulty = (Spinner)findViewById(R.id.schwierigkeitsgradspinner);
+
+
+        onLoad(Load);
+
+     difficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+             onLoad(Load);
+         }
+
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+
+         }
+     });
 
 
     }
