@@ -533,6 +533,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
             case 3:
                 plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MINIMUM);
                 plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MAXIMUM);
+
                 operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
                 operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
                 break;
