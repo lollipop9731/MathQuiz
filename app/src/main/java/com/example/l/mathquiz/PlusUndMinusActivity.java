@@ -32,6 +32,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
     TextView answer;
     TextView punktestand;
     TextView pointsanimatetv;
+
     // ints, doubles and String
     int operand1;
     int operand2;
@@ -505,7 +506,7 @@ public class PlusUndMinusActivity extends AppCompatActivity {
      * @return String Term
      */
     public String newRandomtermPlusMinusNEU(int difficulty) {
-        int plusmin,plusmax;
+        int min,max;
 
         ZahlenraumActivity zahlenraumActivity = new ZahlenraumActivity();
 
@@ -516,33 +517,61 @@ public class PlusUndMinusActivity extends AppCompatActivity {
         switch (difficulty) {
             case 1:
 
-                plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MINIMUM);
-                plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MAXIMUM);
+                min = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MINIMUM);
+                max = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MAXIMUM);
 
-                operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
-                operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
+                operand1 = newRandom.nextInt(max-min+1)+min;
+                operand2 = newRandom.nextInt(max-min+1)+min;
                 break;
 
             case 2:
 
-                plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MINIMUM);
-                plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MAXIMUM);
-                operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
-                operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
+                min = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MINIMUM);
+                max = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MAXIMUM);
+                operand1 = newRandom.nextInt(max-min+1)+min;
+                operand2 = newRandom.nextInt(max-min+1)+min;
                 break;
             case 3:
-                plusmin = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MINIMUM);
-                plusmax = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MAXIMUM);
+                min = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MINIMUM);
+                max = getZahlenraum(ZahlenraumActivity.PLUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MAXIMUM);
 
-                operand1 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
-                operand2 = newRandom.nextInt(plusmax-plusmin+1)+plusmin;
+                operand1 = newRandom.nextInt(max-min+1)+min;
+                operand2 = newRandom.nextInt(max-min+1)+min;
                 break;
         }
 
 
         // no result <0
         if (operatorboolean == 1) {
-            operand2 = newRandom.nextInt(this.operand1 + 1);
+            switch (difficulty) {
+                case 1:
+
+                    min = getZahlenraum(ZahlenraumActivity.MINUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MINIMUM);
+                    max = getZahlenraum(ZahlenraumActivity.MINUS,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MAXIMUM);
+
+                    operand1 = newRandom.nextInt(max-min+1)+min;
+                    operand2 = newRandom.nextInt(operand1-min)+min;
+                    break;
+
+                case 2:
+
+                    min = getZahlenraum(ZahlenraumActivity.MINUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MINIMUM);
+                    max = getZahlenraum(ZahlenraumActivity.MINUS,ZahlenraumActivity.MITTEL,ZahlenraumActivity.MAXIMUM);
+
+                    operand1 = newRandom.nextInt(max-min+1)+min;
+                    operand2 = newRandom.nextInt(operand1-min)+min;
+                    break;
+
+                case 3:
+
+                    min = getZahlenraum(ZahlenraumActivity.MINUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MINIMUM);
+                    max = getZahlenraum(ZahlenraumActivity.MINUS,ZahlenraumActivity.SCHWER,ZahlenraumActivity.MAXIMUM);
+
+                    operand1 = newRandom.nextInt(max-min+1)+min;
+                    operand2 = newRandom.nextInt(operand1-min)+min;
+                    break;
+            }
+
             this.correctresult = operand1 - operand2;
         } else {
             this.correctresult = operand1 + operand2;

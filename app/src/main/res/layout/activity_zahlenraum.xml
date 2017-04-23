@@ -188,21 +188,15 @@
 
     <Button
         android:text="Speichern"
+        android:background="@drawable/buttonstyle"
+        android:textColor="@color/weiß"
+        android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onSave"
-        android:layout_marginTop="392dp"
-        android:id="@+id/saveButton" />
+        android:layout_marginTop="330dp"
+        android:id="@+id/saveButton"
+        android:layout_centerHorizontal="true"
+         />
 
-    <Button
-        android:text="Laden"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/saveButton"
-        android:layout_alignRight="@+id/zahlenraum_geteilt_maximum"
-        android:layout_alignEnd="@+id/zahlenraum_geteilt_maximum"
-        android:layout_marginRight="17dp"
-        android:layout_marginEnd="17dp"
-        android:id="@+id/zahlenraum_load"
-        android:onClick="onLoad"/>
 </RelativeLayout>

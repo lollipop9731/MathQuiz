@@ -39,14 +39,13 @@ public class ZahlenraumActivity extends AppCompatActivity {
 
         PlusVon = (EditText)findViewById(R.id.zahlenraum_plus_minimum);
         PlusBis = (EditText)findViewById(R.id.zahlenraum_plus_maximum);
-        MinusBis = (EditText)findViewById(R.id.zahlenraum_minus_minimum);
-        MinusVon = (EditText)findViewById(R.id.zahlenraum_minus_maximum);
+        MinusVon = (EditText)findViewById(R.id.zahlenraum_minus_minimum);
+        MinusBis = (EditText)findViewById(R.id.zahlenraum_minus_maximum);
         MalVon = (EditText)findViewById(R.id.zahlenraum_mal_minimum);
         MalBis = (EditText)findViewById(R.id.zahlenraum_mal_maximum);
         GeteiltVon = (EditText)findViewById(R.id.zahlenraum_geteilt_minimum);
         GeteiltBis = (EditText)findViewById(R.id.zahlenraum_geteilt_maximum);
         Save =(Button)findViewById(R.id.saveButton);
-        Load = (Button)findViewById(R.id.zahlenraum_load);
         difficulty = (Spinner)findViewById(R.id.schwierigkeitsgradspinner);
 
 
@@ -90,18 +89,24 @@ public class ZahlenraumActivity extends AppCompatActivity {
         return sharedPreferences.getInt(Difficulty+minormax,0);
     }
 
-    public void onSave(View v){
+    public void onSave(View v) {
 
-      writetoShared(PlusVon,PLUS,getSpinnerStatus(),MINIMUM);
-        writetoShared(PlusBis,PLUS,getSpinnerStatus(),MAXIMUM);
-        writetoShared(MinusVon,MINUS,getSpinnerStatus(),MINIMUM);
-        writetoShared(MinusBis,MINUS,getSpinnerStatus(),MAXIMUM);
-        writetoShared(MalVon,MAL,getSpinnerStatus(),MINIMUM);
-        writetoShared(MalBis,MAL,getSpinnerStatus(),MAXIMUM);
-        writetoShared(GeteiltVon,GETEILT,getSpinnerStatus(),MINIMUM);
-        writetoShared(GeteiltBis,GETEILT,getSpinnerStatus(),MAXIMUM);
-        Toast.makeText(getApplicationContext(),"Zahlenräume gespeichert",Toast.LENGTH_LONG).show();
 
+            writetoShared(PlusVon, PLUS, getSpinnerStatus(), MINIMUM);
+            writetoShared(PlusBis, PLUS, getSpinnerStatus(), MAXIMUM);
+            writetoShared(MinusVon, MINUS, getSpinnerStatus(), MINIMUM);
+            writetoShared(MinusBis, MINUS, getSpinnerStatus(), MAXIMUM);
+            writetoShared(MalVon, MAL, getSpinnerStatus(), MINIMUM);
+            writetoShared(MalBis, MAL, getSpinnerStatus(), MAXIMUM);
+            writetoShared(GeteiltVon, GETEILT, getSpinnerStatus(), MINIMUM);
+            writetoShared(GeteiltBis, GETEILT, getSpinnerStatus(), MAXIMUM);
+
+
+        if(CheckNumberRange()){
+            Toast.makeText(getApplicationContext(), "Zahlenräume gespeichert", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "Minimum muss kleiner sein als Maximum", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void onLoad(View v){
@@ -135,5 +140,16 @@ public class ZahlenraumActivity extends AppCompatActivity {
             return SCHWER;
         }
         return "";
+    }
+
+    public boolean CheckNumberRange(){
+        if(getZahlenraum(PLUS,getSpinnerStatus(),MINIMUM)<getZahlenraum(PLUS,getSpinnerStatus(),MAXIMUM)
+                &&getZahlenraum(MINUS,getSpinnerStatus(),MINIMUM)<getZahlenraum(MINUS,getSpinnerStatus(),MAXIMUM)
+        && getZahlenraum(MAL,getSpinnerStatus(),MINIMUM)<getZahlenraum(MAL,getSpinnerStatus(),MAXIMUM)
+        &&getZahlenraum(GETEILT,getSpinnerStatus(),MINIMUM)<getZahlenraum(GETEILT,getSpinnerStatus(),MAXIMUM))
+        {
+            return true;
+        }
+        else return false;
     }
 }
