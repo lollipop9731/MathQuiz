@@ -643,7 +643,11 @@ public class PlusUndMinusActivity extends AppCompatActivity {
                 // Erste Schleife, sucht alle Teiler, außer 1 und die Zahl selbst
                 while (true) {
                     teiler.clear();
-                    operand1 = newRandom.nextInt(50)+2;
+
+                    int min = getZahlenraum(ZahlenraumActivity.GETEILT,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MINIMUM);
+                    int max = getZahlenraum(ZahlenraumActivity.GETEILT,ZahlenraumActivity.LEICHT,ZahlenraumActivity.MAXIMUM);
+
+                    operand1 = newRandom.nextInt(max-min)+min;
                     for (int i = 2; i < operand1; i++) {
                         if (operand1 % i == 0) {
                             teiler.add(i);

@@ -17,8 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CategoriesActivity" />
-        <activity android:name=".DifficultyActivity" />
+        <activity android:name=".CategoriesActivity"
+            android:theme="@style/AppThemeNoActionBar"/>
+        <activity android:name=".DifficultyActivity"
+            android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".PunkteActivity" />
         <activity android:name=".NeuesZielActivity" />
         <activity android:name=".Settings_Activity" />
